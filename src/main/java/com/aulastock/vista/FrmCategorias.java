@@ -19,27 +19,31 @@ public class FrmCategorias extends javax.swing.JFrame {
         chkActivo.setSelected(true);
         txtIdCategoria.setText("AUTOMATICO");
         txtNombre.requestFocus();
-        cargarCategoriasEnTabla();
+        cargarDatosBDaTblCategorias();
+
     }
 
-    private void cargarCategoriasEnTabla() {
+    private void cargarDatosBDaTblCategorias() {
 
-        DefaultTableModel modeloTabla = (DefaultTableModel) tblCategorias.getModel();
-        modeloTabla.setRowCount(0);
+        DefaultTableModel tblCATEGORIAS = (DefaultTableModel) tblCategorias.getModel();
+        tblCATEGORIAS.setRowCount(0);
 
-        CategoriaDAO categoriaDAO = new CategoriaDAO();
-        ArrayList<Categoria> listaCategorias = categoriaDAO.listar();
+        CategoriaDAO categoriaDAO= new CategoriaDAO();
+
+        ArrayList<Categoria> listaCategorias ;
+        listaCategorias = categoriaDAO.listar();
+
+
+
 
         for (Categoria categoria : listaCategorias) {
 
             Object[] filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion(),
                     categoria.isEstado()};
 
-            modeloTabla.addRow(filaCategorias);
+            tblCATEGORIAS.addRow(filaCategorias);
         }
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,12 +90,6 @@ public class FrmCategorias extends javax.swing.JFrame {
         lblNombre.setText("Nombre");
         getContentPane().add(lblNombre);
         lblNombre.setBounds(320, 90, 100, 25);
-
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreKeyPressed(evt);
-            }
-        });
         getContentPane().add(txtNombre);
         txtNombre.setBounds(420, 90, 300, 28);
 
@@ -129,6 +127,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         btnEliminar.setBounds(390, 240, 110, 32);
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         getContentPane().add(btnLimpiar);
         btnLimpiar.setBounds(510, 240, 110, 32);
 
@@ -167,17 +166,15 @@ public class FrmCategorias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
-        // TODO add your handling code here:
-        
-        
-        
-        
-    }//GEN-LAST:event_txtNombreKeyPressed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
+
+
+    }
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -224,6 +221,11 @@ public class FrmCategorias extends javax.swing.JFrame {
 
 
     }
+
+
+
+    
+
 
 
 

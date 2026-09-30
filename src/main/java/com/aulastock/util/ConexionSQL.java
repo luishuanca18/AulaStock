@@ -13,6 +13,7 @@ public class ConexionSQL {
     public static Connection conectar() {
         try {
             return DriverManager.getConnection(URL, USUARIO, CLAVE);
+
         } catch (SQLException error) {
             System.out.println("Error al conectar: " + error.getMessage());
             return null;
