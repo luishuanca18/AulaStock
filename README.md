@@ -12,16 +12,18 @@ Sistema de escritorio para ventas e inventario desarrollado con Java 17, Swing, 
 
 1. Abre `database/AulaStock.sql` en SQL Server Management Studio.
 2. Ejecuta todo el archivo. Creará la base, sus tablas, relaciones, datos iniciales y procedimientos almacenados.
-3. Abre `database/crear_usuario_local.example.sql`.
-4. Cambia el texto de contraseña de ejemplo por una contraseña local y ejecuta el archivo.
+3. Abre el script de creación del usuario SQL incluido en la carpeta `database`.
+4. Ejecuta el archivo para crear el usuario `aulaStock_user`.
 
-## Configurar la conexión local
+## Configurar la conexión
 
-1. Copia `src/main/resources/database.properties.example`.
-2. Nombra la copia `database.properties`.
-3. Escribe en esa copia tu usuario y contraseña locales de SQL Server.
+Abre `src/main/java/com/aulastock/util/ConexionSQL.java` y localiza:
 
-`database.properties` está ignorado por Git para impedir que una contraseña llegue a GitHub.
+```java
+private static final String CLAVE = "AQUI_CONTRASENA";
+```
+
+Reemplaza `AQUI_CONTRASENA` por la contraseña utilizada para crear `aulaStock_user`.
 
 ## Ejecutar el proyecto
 
