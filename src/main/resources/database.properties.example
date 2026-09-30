@@ -1,0 +1,3 @@
+db.url=jdbc:sqlserver://localhost:1433;databaseName=AulaStock;encrypt=true;trustServerCertificate=true;
+db.usuario=aulaStock_user
+db.clave=CAMBIAR_POR_LA_CONTRASENA_LOCAL
