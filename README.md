@@ -19,12 +19,6 @@ Sistema de escritorio para ventas e inventario desarrollado con Java 17, Swing, 
 
 Abre `src/main/java/com/aulastock/util/ConexionSQL.java` y localiza:
 
-```java
-private static final String CLAVE = "AQUI_CONTRASENA";
-```
-
-Reemplaza `AQUI_CONTRASENA` por la contraseña utilizada para crear `aulaStock_user`.
-
 ## Ejecutar el proyecto
 
 Abre la carpeta como proyecto Maven en IntelliJ IDEA o NetBeans. Maven descargará automáticamente el controlador JDBC de SQL Server definido en `pom.xml`.
@@ -38,7 +32,7 @@ git pull
 git checkout -b modulo/nombre-del-modulo
 git add .
 git commit -m "Agrega modulo de productos"
-git push -u origin modulo/nombre-del-modulo
+git push  origin modulo/nombre-del-modulo
 ```
 
 Después debe crear un Pull Request en GitHub. La rama principal se actualiza únicamente al revisar y aceptar ese Pull Request.
