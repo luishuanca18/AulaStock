@@ -30,17 +30,11 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         CategoriaDAO categoriaDAO= new CategoriaDAO();
 
-        ArrayList<Categoria> listaCategorias ;
-        listaCategorias = categoriaDAO.listar();
+       ArrayList<Categoria> listaCategorias;
+       listaCategorias=categoriaDAO.listar();
 
-
-
-
-        for (Categoria categoria : listaCategorias) {
-
-            Object[] filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion(),
-                    categoria.isEstado()};
-
+        for ( Categoria categoria : listaCategorias) {
+            Object[] filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion()};
             tblCATEGORIAS.addRow(filaCategorias);
         }
     }
