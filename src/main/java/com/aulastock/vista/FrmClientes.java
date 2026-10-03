@@ -10,6 +10,7 @@ public class FrmClientes extends javax.swing.JFrame {
         initComponents();
         setSize(1100, 720);
         setLocationRelativeTo(null);
+        //Hola
     }
 
     @SuppressWarnings("unchecked")
