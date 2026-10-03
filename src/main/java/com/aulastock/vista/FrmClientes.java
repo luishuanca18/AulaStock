@@ -13,6 +13,7 @@ public class FrmClientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         //Hola
         //soledaddddddddddddddddddddddddddddddddddd XD
+        //LUIS JFCHNDSJKFNWEKL
     }
 
     @SuppressWarnings("unchecked")
