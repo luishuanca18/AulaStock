@@ -2,6 +2,7 @@
  * Formulario generado para el proyecto AulaStock.
  */
 //brendaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+//LUIS GAAAAAAAAA
 package com.aulastock.vista;
 
 public class FrmClientes extends javax.swing.JFrame {
