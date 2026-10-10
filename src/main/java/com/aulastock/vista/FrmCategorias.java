@@ -8,6 +8,7 @@ import com.aulastock.modelo.Categoria;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FrmCategorias extends javax.swing.JFrame {
@@ -34,8 +35,13 @@ public class FrmCategorias extends javax.swing.JFrame {
        listaCategorias=categoriaDAO.listar();
 
         for ( Categoria categoria : listaCategorias) {
-            Object[] filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion()};
-            tblCATEGORIAS.addRow(filaCategorias);
+            ArrayList<Object> filaCategorias = new ArrayList<>();
+            filaCategorias.add(categoria.getIdCategoria());
+            filaCategorias.add(categoria.getNombre());
+            filaCategorias.add(categoria.getDescripcion());
+            //filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion()};
+            tblCATEGORIAS.addRow(filaCategorias.toArray());
+
         }
     }
 
@@ -52,14 +58,12 @@ public class FrmCategorias extends javax.swing.JFrame {
         spDescripcion = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         chkActivo = new javax.swing.JCheckBox();
-        btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         lblBuscar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         spCategorias = new javax.swing.JScrollPane();
         tblCategorias = new javax.swing.JTable();
 
@@ -102,10 +106,6 @@ public class FrmCategorias extends javax.swing.JFrame {
         getContentPane().add(chkActivo);
         chkActivo.setBounds(740, 135, 100, 28);
 
-        btnNuevo.setText("Nuevo");
-        getContentPane().add(btnNuevo);
-        btnNuevo.setBounds(30, 240, 110, 32);
-
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
@@ -131,21 +131,16 @@ public class FrmCategorias extends javax.swing.JFrame {
         getContentPane().add(txtBuscar);
         txtBuscar.setBounds(110, 300, 360, 28);
 
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-        getContentPane().add(btnBuscar);
-        btnBuscar.setBounds(680, 240, 100, 28);
-
         tblCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Categoria", "Nombre", "Descripcion", "Estado"
+                "ID Categoria", "Nombre", "Descripcion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -250,11 +245,9 @@ public class FrmCategorias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkActivo;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblDescripcion;
