@@ -92,11 +92,12 @@ public class CategoriaDAO {
 
         return registroExitoso;
     }
-    public boolean actualizar(Categoria actualizarCategoria) {
+    public boolean actualizarCategoria(Categoria actualizarCategoria) {
         boolean actualizado = false;
 
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
         String usp_actualizar_categoria = "{call usp_actualizar_categoria(?,?,?,?)}";
+
 
 
         try {
@@ -126,6 +127,7 @@ public class CategoriaDAO {
 
         return  eliminado;
     }
+
 
 
 }///final clase

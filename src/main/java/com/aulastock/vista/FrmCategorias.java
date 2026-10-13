@@ -147,6 +147,11 @@ public class FrmCategorias extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoriasMouseClicked(evt);
+            }
+        });
         spCategorias.setViewportView(tblCategorias);
 
         getContentPane().add(spCategorias);
@@ -154,6 +159,16 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblCategoriasMouseClicked(java.awt.event.MouseEvent evt) {
+
+        int filaSeleccionada = tblCategorias.getSelectedRow();
+        txtIdCategoria.setText(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
+        txtNombre.setText(tblCategorias.getValueAt(filaSeleccionada, 1).toString());
+        txtDescripcion.setText(tblCategorias.getValueAt(filaSeleccionada, 2).toString());
+
+
+    }
 
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +185,34 @@ public class FrmCategorias extends javax.swing.JFrame {
         Categoria categoria = new Categoria();
         CategoriaDAO categoriaDAO = new CategoriaDAO();
 
-        int isCategoria = tblCategorias.getSelectedRow();
+        int filaSeleccionada = tblCategorias.getSelectedRow();
+
+        if (filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this, "Seleccione una categoria");
+
+            return;
+        }
+
+        
+
+
+        int idCategoria = Integer.parseInt(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
+        categoria.setIdCategoria(idCategoria);
+        categoria.setNombre(txtNombre.getText().trim());
+        categoria.setDescripcion(txtDescripcion.getText().trim());
+        categoria.setEstado(chkActivo.isSelected());
+
+        boolean actualizacionExitosa = categoriaDAO.actualizarCategoria(categoria);
+
+        if (actualizacionExitosa) {
+            JOptionPane.showMessageDialog(this, "Categoria actualizada");
+            cargarDatosBDaTblCategorias();
+        }else {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+        }
+
+
+
 
 
 
