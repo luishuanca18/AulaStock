@@ -176,7 +176,19 @@ public class FrmCategorias extends javax.swing.JFrame {
         CategoriaDAO categoriaDAO = new CategoriaDAO();
         Categoria categoria = new Categoria();
         categoria.setIdCategoria(idCategoria);
-        boolean elimarExitoso = categoriaDAO.eliminar(categoria);
+        boolean eliminacionExitosa = categoriaDAO.eliminar(categoria);
+
+        if (eliminacionExitosa) {
+            JOptionPane.showMessageDialog(this, "Categoria eliminada con exito");
+            cargarDatosBDaTblCategorias();
+
+            txtIdCategoria.setText("");
+            txtNombre.setText("");
+            txtDescripcion.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la Categoria");
+        }
 
         
     }

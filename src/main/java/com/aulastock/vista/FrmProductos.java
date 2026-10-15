@@ -7,12 +7,36 @@
 
 package com.aulastock.vista;
 
+import com.aulastock.modelo.Categoria;
+import com.aulastock.util.ConexionSQL;
+
+import java.sql.*;
+
 public class FrmProductos extends javax.swing.JFrame {
 
     public FrmProductos() {
         initComponents();
         setSize(1050, 700);
         setLocationRelativeTo(null);
+    }
+
+    private void cargarCategorias(){
+
+        cboCategoria.removeAllItems();
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String consultaCategoria = "select idCategoria,nombre from dbo.CATEGORIA where estado=1 order by nombre";
+
+        try {
+            PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareCall(consultaCategoria);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la categoria"+e.getMessage());
+        }
+
+
     }
 
     @SuppressWarnings("unchecked")
@@ -99,6 +123,7 @@ public class FrmProductos extends javax.swing.JFrame {
         btnNuevo.setBounds(30, 235, 110, 32);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
         btnGuardar.setBounds(150, 235, 110, 32);
 
@@ -147,6 +172,31 @@ public class FrmProductos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String usp_guardar_productos="{call usp_guardar_productos(?,?,?,?,?,?,?)}";
+
+        try {
+            CallableStatement guardarProductos = conexionBaseDeDatos.prepareCall(usp_guardar_productos);
+            guardarProductos.setString(1, txtCodigo.getText().trim());
+            guardarProductos.setString(2, txtNombre.getText().trim());
+            guardarProductos.setInt(3, Integer.parseInt(cboCategoria.getSelectedItem().toString()));
+            guardarProductos.setDouble(4,Double.parseDouble(txtPrecio.getText().trim()));
+            guardarProductos.setInt(5, Integer.parseInt(txtStock.getText().trim()));
+            guardarProductos.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
+            guardarProductos.setBoolean(7, chkActivo.isSelected());
+
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Error en usp_guardar_productos " + e.getMessage());
+        }
+
+
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new FrmProductos().setVisible(true));
