@@ -15,7 +15,6 @@ public class Categoria {
     public Categoria() {
 
     }
-
     public int  getIdCategoria() {
 
         return idCategoria;

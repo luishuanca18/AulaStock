@@ -5,7 +5,6 @@ package com.aulastock.vista;
 
 import com.aulastock.dao.CategoriaDAO;
 import com.aulastock.modelo.Categoria;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.lang.reflect.Array;
