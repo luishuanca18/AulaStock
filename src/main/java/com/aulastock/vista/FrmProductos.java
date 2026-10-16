@@ -7,12 +7,80 @@
 
 package com.aulastock.vista;
 
+import com.aulastock.modelo.Categoria;
+import com.aulastock.util.ConexionSQL;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import java.util.ArrayList;
+
 public class FrmProductos extends javax.swing.JFrame {
 
     public FrmProductos() {
         initComponents();
         setSize(1050, 700);
         setLocationRelativeTo(null);
+        cargarCategorias();
+        cargarProductos();
+    }
+    private void cargarProductos() {
+
+        DefaultTableModel tablaProductos = (DefaultTableModel) tblProductos.getModel();
+        tablaProductos.setRowCount(0);
+
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String consultaProductos ="SELECT P.idProducto,P.codigo,P.nombre,C.nombre AS nombreCategoria,P.precio,P.stock,P.stockMinimo " +
+                "FROM producto P INNER JOIN CATEGORIA C ON P.idCategoria = C.idCategoria ORDER BY  P.codigo ";
+
+        try {
+            PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaProductos);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+
+                Object[]  productos = new  Object[6];
+                productos[0]=resultadoConsulta.getString("codigo");
+                productos[1]= resultadoConsulta.getString("nombre");
+                productos[2]= resultadoConsulta.getString("nombreCategoria");
+                productos[3]=resultadoConsulta.getDouble("precio");
+                productos[4] =resultadoConsulta.getInt("stock");
+                productos[5]=resultadoConsulta.getInt("stockMinimo");
+                tablaProductos.addRow(productos);
+            }
+            resultadoConsulta.close();
+            consultaPreparada.close();
+            conexionBaseDeDatos.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al cargar produtos: " + e.getMessage());
+        }
+    }
+
+    private void cargarCategorias(){
+
+        cboCategoria.removeAllItems();
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String consultaCategoria = "select idCategoria,nombre from dbo.CATEGORIA where estado=1 order by nombre";
+
+        try {
+            PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaCategoria);
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                Categoria categoria = new Categoria();
+
+                categoria.setIdCategoria(resultadoConsulta.getInt("idCategoria"));
+                categoria.setNombre(resultadoConsulta.getString("nombre"));
+                cboCategoria.addItem(categoria);
+            }
+            resultadoConsulta.close();
+            consultaPreparada.close();
+            conexionBaseDeDatos.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la categoria"+e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -99,6 +167,7 @@ public class FrmProductos extends javax.swing.JFrame {
         btnNuevo.setBounds(30, 235, 110, 32);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
         btnGuardar.setBounds(150, 235, 110, 32);
 
@@ -111,6 +180,7 @@ public class FrmProductos extends javax.swing.JFrame {
         btnEliminar.setBounds(390, 235, 110, 32);
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         getContentPane().add(btnLimpiar);
         btnLimpiar.setBounds(510, 235, 110, 32);
 
@@ -129,24 +199,109 @@ public class FrmProductos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Nombre", "Categoria", "Precio", "Stock", "Stock minimo", "Estado"
+                "Codigo", "Nombre", "Categoria", "Precio", "Stock", "Stock minimo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         spProductos.setViewportView(tblProductos);
+        if (tblProductos.getColumnModel().getColumnCount() > 0) {
+            tblProductos.getColumnModel().getColumn(0).setResizable(false);
+            tblProductos.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tblProductos.getColumnModel().getColumn(1).setResizable(false);
+            tblProductos.getColumnModel().getColumn(1).setPreferredWidth(260);
+            tblProductos.getColumnModel().getColumn(2).setResizable(false);
+            tblProductos.getColumnModel().getColumn(2).setPreferredWidth(160);
+            tblProductos.getColumnModel().getColumn(3).setResizable(false);
+            tblProductos.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tblProductos.getColumnModel().getColumn(4).setResizable(false);
+            tblProductos.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tblProductos.getColumnModel().getColumn(5).setResizable(false);
+            tblProductos.getColumnModel().getColumn(5).setPreferredWidth(100);
+        }
 
         getContentPane().add(spProductos);
-        spProductos.setBounds(30, 345, 960, 280);
+        spProductos.setBounds(30, 345, 760, 280);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {
+
+        String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
+
+        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
+
+
+        }
+
+
+        int filaSeleccionada = tblProductos.getSelectedRow();
+        txtCodigo.setText(tblProductos.getValueAt(filaSeleccionada, 0).toString());
+        txtNombre.setText(tblProductos.getValueAt(filaSeleccionada, 1).toString());
+        //cboCategoria.setSelectedItem(tblProductos.getValueAt(filaSeleccionada, 2).toString());
+        txtPrecio.setText(tblProductos.getValueAt(filaSeleccionada, 3).toString());
+        txtStock.setText(tblProductos.getValueAt(filaSeleccionada, 4).toString());
+        txtStockMinimo.setText(tblProductos.getValueAt(filaSeleccionada, 5).toString());
+
+
+
+
+    }
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
+
+        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
+
+             int conteo= i;
+                JOptionPane.showMessageDialog(this,conteo);
+        }
+
+    }
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        Categoria categoriaSeleccionada = (Categoria) cboCategoria.getSelectedItem();
+
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String usp_guardar_productos="{call usp_guardar_productos(?,?,?,?,?,?,?)}";
+
+        try {
+            CallableStatement guardarProductos = conexionBaseDeDatos.prepareCall(usp_guardar_productos);
+            guardarProductos.setString(1, txtCodigo.getText().trim());
+            guardarProductos.setString(2, txtNombre.getText().trim());
+            guardarProductos.setInt(3,categoriaSeleccionada.getIdCategoria());
+            guardarProductos.setDouble(4,Double.parseDouble(txtPrecio.getText().trim()));
+            guardarProductos.setInt(5, Integer.parseInt(txtStock.getText().trim()));
+            guardarProductos.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
+            guardarProductos.setBoolean(7, chkActivo.isSelected());
+            int filasAgregadas =  guardarProductos.executeUpdate();
+            guardarProductos.close();
+            conexionBaseDeDatos.close();
+
+            if (filasAgregadas > 0) {JOptionPane.showMessageDialog(this,"Se guardo el Producto correctamente");}
+            else  {JOptionPane.showMessageDialog(this,"No se pudo guardar el Producto ingresado");}
+
+        } catch (SQLException e) {
+            System.out.println("Error en usp_guardar_productos " + e.getMessage());
+        }
+
+
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new FrmProductos().setVisible(true));

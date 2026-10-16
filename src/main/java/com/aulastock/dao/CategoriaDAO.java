@@ -92,11 +92,12 @@ public class CategoriaDAO {
 
         return registroExitoso;
     }
-    public boolean actualizar(Categoria actualizarCategoria) {
+    public boolean actualizarCategoria(Categoria actualizarCategoria) {
         boolean actualizado = false;
 
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
         String usp_actualizar_categoria = "{call usp_actualizar_categoria(?,?,?,?)}";
+
 
 
         try {
@@ -122,10 +123,26 @@ public class CategoriaDAO {
 
         boolean eliminado=false;
 
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String usp_eliminar_categoria="{call dbo.usp_eliminar_categoria(?)}";
 
+        try {
+            CallableStatement eliminarRegistro = conexionBaseDeDatos.prepareCall(usp_eliminar_categoria);
+
+            eliminarRegistro.setInt(1,eliminarCategoria.getIdCategoria());
+
+            int filasAfectadas = eliminarRegistro.executeUpdate();
+            eliminado=filasAfectadas>0;
+            eliminarRegistro.close();
+            conexionBaseDeDatos.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminarCategoria: "+e.getMessage());
+        }
 
         return  eliminado;
     }
+
 
 
 }///final clase
