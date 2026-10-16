@@ -1,7 +1,7 @@
 /*
  * Formulario generado para el proyecto AulaStock.
  */
-//brendaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+//BRENDA
 //LUIS GAAAAAAAAA
 package com.aulastock.vista;
 
