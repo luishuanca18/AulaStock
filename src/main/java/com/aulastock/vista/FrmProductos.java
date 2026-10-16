@@ -81,8 +81,6 @@ public class FrmProductos extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println("Error al obtener la categoria"+e.getMessage());
         }
-
-
     }
 
     @SuppressWarnings("unchecked")
@@ -213,6 +211,11 @@ public class FrmProductos extends javax.swing.JFrame {
             }
         });
         tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         spProductos.setViewportView(tblProductos);
         if (tblProductos.getColumnModel().getColumnCount() > 0) {
             tblProductos.getColumnModel().getColumn(0).setResizable(false);
@@ -235,9 +238,38 @@ public class FrmProductos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {
+
+        String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
+
+        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
+
+
+        }
+
+
+        int filaSeleccionada = tblProductos.getSelectedRow();
+        txtCodigo.setText(tblProductos.getValueAt(filaSeleccionada, 0).toString());
+        txtNombre.setText(tblProductos.getValueAt(filaSeleccionada, 1).toString());
+        //cboCategoria.setSelectedItem(tblProductos.getValueAt(filaSeleccionada, 2).toString());
+        txtPrecio.setText(tblProductos.getValueAt(filaSeleccionada, 3).toString());
+        txtStock.setText(tblProductos.getValueAt(filaSeleccionada, 4).toString());
+        txtStockMinimo.setText(tblProductos.getValueAt(filaSeleccionada, 5).toString());
+
+
+
+
+    }
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
 
+        String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
 
+        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
+
+             int conteo= i;
+                JOptionPane.showMessageDialog(this,conteo);
+        }
 
     }
 
