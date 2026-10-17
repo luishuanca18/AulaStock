@@ -6,14 +6,162 @@
 
 package com.aulastock.vista;
 
-public class FrmReportes extends javax.swing.JFrame {
+import com.aulastock.dao.ReporteDAO;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
+public class FrmReportes extends javax.swing.JFrame {
     public FrmReportes() {
         initComponents();
         setSize(1050, 700);
         setLocationRelativeTo(null);
-    }
 
+        configurarTiposReporte();
+
+        btnGenerar.addActionListener(e -> generarReporte());
+        btnLimpiar.addActionListener(e -> limpiarFormulario());
+    }
+       private void configurarTiposReporte() {
+        cboTipoReporte.removeAllItems();
+        cboTipoReporte.addItem("Ventas");
+        cboTipoReporte.addItem("Ingresos");
+        cboTipoReporte.addItem("Documentos");
+    }
+        private void limpiarFormulario() {
+        txtFechaDesde.setText("");
+        txtFechaHasta.setText("");
+        txtResumen.setText("");
+
+        javax.swing.table.DefaultTableModel modelo =
+            (javax.swing.table.DefaultTableModel) tblReporte.getModel();
+
+        modelo.setRowCount(0);
+    }
+    private void generarReporte() {
+    try {
+        String desde = txtFechaDesde.getText().trim();
+        String hasta = txtFechaHasta.getText().trim();
+
+        if (desde.isEmpty() || hasta.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Ingresa las fechas desde y hasta."
+            );
+            return;
+        }
+
+        LocalDate fechaDesde = LocalDate.parse(desde);
+        LocalDate fechaHasta = LocalDate.parse(hasta);
+
+        if (fechaDesde.isAfter(fechaHasta)) {
+            JOptionPane.showMessageDialog(
+                this,
+                "La fecha desde no puede ser posterior a la fecha hasta."
+            );
+            return;
+        }
+
+        DefaultTableModel modelo =
+            (DefaultTableModel) tblReporte.getModel();
+
+        ReporteDAO dao = new ReporteDAO();
+
+        String tipo = cboTipoReporte.getSelectedItem().toString();
+
+        boolean hayResultados;
+
+        switch (tipo) {
+            case "Ventas":
+                hayResultados = dao.listarVentas(
+                    Date.valueOf(fechaDesde),
+                    Date.valueOf(fechaHasta),
+                    modelo
+                );
+                break;
+
+            case "Ingresos":
+                hayResultados = dao.listarIngresos(
+                    Date.valueOf(fechaDesde),
+                    Date.valueOf(fechaHasta),
+                    modelo
+                );
+                break;
+
+            case "Documentos":
+                hayResultados = dao.listarDocumentos(
+                    Date.valueOf(fechaDesde),
+                    Date.valueOf(fechaHasta),
+                    modelo
+                );
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Selecciona un tipo de reporte válido."
+                );
+                return;
+        }
+
+        if (!hayResultados) {
+            txtResumen.setText(
+                "No se encontraron registros en el período."
+            );
+
+            JOptionPane.showMessageDialog(
+                this,
+                "No hay registros para las fechas seleccionadas."
+            );
+            return;
+        }
+
+        java.math.BigDecimal total =
+            java.math.BigDecimal.ZERO;
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Object importe = modelo.getValueAt(i, 4);
+
+            if (importe instanceof java.math.BigDecimal) {
+                total = total.add(
+                    (java.math.BigDecimal) importe
+                );
+            }
+        }
+
+        if (tipo.equals("Ingresos")) {
+            txtResumen.setText(
+                "Cantidad de ventas: "
+                + modelo.getValueAt(0, 3)
+                + "\nTotal de ingresos: S/ "
+                + total.toPlainString()
+            );
+        } else {
+            txtResumen.setText(
+                "Registros encontrados: "
+                + modelo.getRowCount()
+                + "\nTotal del período: S/ "
+                + total.toPlainString()
+            );
+        }
+
+    } catch (java.time.format.DateTimeParseException ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Formato de fecha inválido. Usa AAAA-MM-DD."
+        );
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Error al consultar el reporte: "
+            + ex.getMessage()
+        );
+    }
+}
+               
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
