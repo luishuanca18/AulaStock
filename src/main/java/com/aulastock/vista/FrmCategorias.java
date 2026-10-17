@@ -5,9 +5,9 @@ package com.aulastock.vista;
 
 import com.aulastock.dao.CategoriaDAO;
 import com.aulastock.modelo.Categoria;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FrmCategorias extends javax.swing.JFrame {
@@ -34,8 +34,13 @@ public class FrmCategorias extends javax.swing.JFrame {
        listaCategorias=categoriaDAO.listar();
 
         for ( Categoria categoria : listaCategorias) {
-            Object[] filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion()};
-            tblCATEGORIAS.addRow(filaCategorias);
+            ArrayList<Object> filaCategorias = new ArrayList<>();
+            filaCategorias.add(categoria.getIdCategoria());
+            filaCategorias.add(categoria.getNombre());
+            filaCategorias.add(categoria.getDescripcion());
+            //filaCategorias = {categoria.getIdCategoria(),categoria.getNombre(),categoria.getDescripcion()};
+            tblCATEGORIAS.addRow(filaCategorias.toArray());
+
         }
     }
 
@@ -52,14 +57,12 @@ public class FrmCategorias extends javax.swing.JFrame {
         spDescripcion = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         chkActivo = new javax.swing.JCheckBox();
-        btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         lblBuscar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         spCategorias = new javax.swing.JScrollPane();
         tblCategorias = new javax.swing.JTable();
 
@@ -102,10 +105,6 @@ public class FrmCategorias extends javax.swing.JFrame {
         getContentPane().add(chkActivo);
         chkActivo.setBounds(740, 135, 100, 28);
 
-        btnNuevo.setText("Nuevo");
-        getContentPane().add(btnNuevo);
-        btnNuevo.setBounds(30, 240, 110, 32);
-
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
@@ -117,6 +116,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         btnActualizar.setBounds(270, 240, 110, 32);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         getContentPane().add(btnEliminar);
         btnEliminar.setBounds(390, 240, 110, 32);
 
@@ -131,25 +131,25 @@ public class FrmCategorias extends javax.swing.JFrame {
         getContentPane().add(txtBuscar);
         txtBuscar.setBounds(110, 300, 360, 28);
 
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-        getContentPane().add(btnBuscar);
-        btnBuscar.setBounds(680, 240, 100, 28);
-
         tblCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Categoria", "Nombre", "Descripcion", "Estado"
+                "ID Categoria", "Nombre", "Descripcion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoriasMouseClicked(evt);
             }
         });
         spCategorias.setViewportView(tblCategorias);
@@ -159,6 +159,49 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        String id = txtIdCategoria.getText().trim();
+
+        if (id.isEmpty() || txtIdCategoria.getText().equals("AUTOMATICO")) {
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una categoria");
+            return;
+
+        }
+        int idCategoria = Integer.parseInt(id);
+
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        Categoria categoria = new Categoria();
+        categoria.setIdCategoria(idCategoria);
+        boolean eliminacionExitosa = categoriaDAO.eliminar(categoria);
+
+        if (eliminacionExitosa) {
+            JOptionPane.showMessageDialog(this, "Categoria eliminada con exito");
+            cargarDatosBDaTblCategorias();
+
+            txtIdCategoria.setText("");
+            txtNombre.setText("");
+            txtDescripcion.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la Categoria");
+        }
+
+        
+    }
+
+    private void tblCategoriasMouseClicked(java.awt.event.MouseEvent evt) {
+
+
+        int filaSeleccionada = tblCategorias.getSelectedRow();
+        txtIdCategoria.setText(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
+        txtNombre.setText(tblCategorias.getValueAt(filaSeleccionada, 1).toString());
+        txtDescripcion.setText(tblCategorias.getValueAt(filaSeleccionada, 2).toString());
+
+
+    }
 
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,13 +218,26 @@ public class FrmCategorias extends javax.swing.JFrame {
         Categoria categoria = new Categoria();
         CategoriaDAO categoriaDAO = new CategoriaDAO();
 
-        int isCategoria = tblCategorias.getSelectedRow();
+        int filaSeleccionada = tblCategorias.getSelectedRow();
 
+        if (filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this, "Seleccione una categoria");
+            return;
+        }
+        int idCategoria = Integer.parseInt(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
+        categoria.setIdCategoria(idCategoria);
+        categoria.setNombre(txtNombre.getText().trim());
+        categoria.setDescripcion(txtDescripcion.getText().trim());
+        categoria.setEstado(chkActivo.isSelected());
 
+        boolean actualizacionExitosa = categoriaDAO.actualizarCategoria(categoria);
 
-
-
-
+        if (actualizacionExitosa) {
+            JOptionPane.showMessageDialog(this, "Categoria actualizada");
+            cargarDatosBDaTblCategorias();
+        }else {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+        }
     }
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,11 +306,9 @@ public class FrmCategorias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkActivo;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblDescripcion;
