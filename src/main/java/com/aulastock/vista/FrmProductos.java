@@ -243,11 +243,12 @@ public class FrmProductos extends javax.swing.JFrame {
         String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
 
         for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
-
-
+            Categoria categoria = (Categoria) cboCategoria.getItemAt(i);
+            if (categoria.getNombre().equals(nombreCategoria)) {
+                cboCategoria.setSelectedIndex(i);
+                break;
+            }
         }
-
-
         int filaSeleccionada = tblProductos.getSelectedRow();
         txtCodigo.setText(tblProductos.getValueAt(filaSeleccionada, 0).toString());
         txtNombre.setText(tblProductos.getValueAt(filaSeleccionada, 1).toString());
@@ -263,13 +264,7 @@ public class FrmProductos extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
 
-        String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
 
-        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
-
-             int conteo= i;
-                JOptionPane.showMessageDialog(this,conteo);
-        }
 
     }
 

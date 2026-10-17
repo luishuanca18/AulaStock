@@ -2,7 +2,7 @@
  * Formulario generado para el proyecto AulaStock.
  */
 package com.aulastock.vista;
-
+//DAO significa Data Access Object, en español: Objeto de Acceso a Datos.
 import com.aulastock.dao.CategoriaDAO;
 import com.aulastock.modelo.Categoria;
 import javax.swing.*;
