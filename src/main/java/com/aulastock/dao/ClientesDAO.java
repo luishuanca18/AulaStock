@@ -12,7 +12,7 @@ public class ClientesDAO {
         ArrayList<Clientes> clientesBaseDeDatos = new ArrayList<>();
         String consultaSQL = "SELECT idCliente, dni, nombres, apellidos, "
                 + "telefono, correo, direccion, estado "
-                + "FROM dbo.cliente ORDER BY nombres";
+                + "FROM dbo.cliente ORDER BY idCliente ASC";
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
         try {
             PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaSQL);
