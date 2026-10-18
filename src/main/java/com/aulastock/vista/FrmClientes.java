@@ -1,19 +1,85 @@
-/*
- * Formulario generado para el proyecto AulaStock.
- */
-//brendaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-//LUIS GAAAAAAAAA
 package com.aulastock.vista;
+
+import com.aulastock.dao.ClientesDAO;
+import com.aulastock.modelo.Clientes;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmClientes extends javax.swing.JFrame {
 
+    ClientesDAO clientesDAO = new ClientesDAO();
+
     public FrmClientes() {
         initComponents();
+        txtDni.requestFocusInWindow();
+        listarClientes();
         setSize(1100, 720);
         setLocationRelativeTo(null);
-        //Hola
-        //soledaddddddddddddddddddddddddddddddddddd XD
-        //LUIS JFCHNDSJKFNWEKL
+    }
+
+    private void listarClientes() {
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0);
+        ArrayList<Clientes> listaClientes = clientesDAO.listar();
+        for (Clientes cliente : listaClientes) {
+            Object[] fila = {
+                cliente.getIdCliente(),
+                cliente.getDni(),
+                cliente.getNombres(),
+                cliente.getApellidos(),
+                cliente.getTelefono(),
+                cliente.getCorreo(),
+                cliente.getDireccion(),
+                cliente.isEstado() ? "Activo" : "Inactivo"
+            };
+            modelo.addRow(fila);
+        }
+    }
+
+    private void buscarClientes() {
+        String textoBuscar = txtBuscar.getText().trim().toLowerCase();
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0);
+        ArrayList<Clientes> listaClientes = clientesDAO.listar();
+
+        for (Clientes cliente : listaClientes) {
+            String codigo = String.valueOf(cliente.getIdCliente());
+            String dni = cliente.getDni();
+            String nombres = cliente.getNombres().toLowerCase();
+            String apellidos = cliente.getApellidos().toLowerCase();
+
+            if (codigo.contains(textoBuscar)
+                    || dni.contains(textoBuscar)
+                    || nombres.contains(textoBuscar)
+                    || apellidos.contains(textoBuscar)) {
+
+                Object[] fila = {
+                    cliente.getIdCliente(),
+                    cliente.getDni(),
+                    cliente.getNombres(),
+                    cliente.getApellidos(),
+                    cliente.getTelefono(),
+                    cliente.getCorreo(),
+                    cliente.getDireccion(),
+                    cliente.isEstado() ? "Activo" : "Inactivo"
+                };
+                modelo.addRow(fila);
+            }
+        }
+    }
+
+    private void limpiarCampos() {
+        txtCodigo.setText("");
+        txtDni.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+        txtDireccion.setText("");
+        txtBuscar.setText("");
+        chkActivo.setSelected(false);
+        txtDni.requestFocus();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,93 +112,120 @@ public class FrmClientes extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         spClientes = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AulaStock - Clientes");
+        setBackground(new java.awt.Color(204, 204, 204));
         setResizable(false);
-        getContentPane().setLayout(null);
 
-        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 28)); // NOI18N
-        lblTitulo.setText("GESTION DE CLIENTES");
-        getContentPane().add(lblTitulo);
-        lblTitulo.setBounds(30, 20, 520, 45);
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 51, 102));
+        lblTitulo.setText("GESTIÓN DE CLIENTES");
 
+        lblCodigo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCodigo.setText("Codigo");
-        getContentPane().add(lblCodigo);
-        lblCodigo.setBounds(30, 90, 90, 25);
-        getContentPane().add(txtCodigo);
-        txtCodigo.setBounds(120, 90, 130, 28);
 
+        txtCodigo.setEditable(false);
+        txtCodigo.setBackground(new java.awt.Color(204, 204, 204));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblDni.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblDni.setText("DNI");
-        getContentPane().add(lblDni);
-        lblDni.setBounds(280, 90, 60, 25);
-        getContentPane().add(txtDni);
-        txtDni.setBounds(340, 90, 140, 28);
 
+        txtDni.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDni.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblNombres.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNombres.setText("Nombres");
-        getContentPane().add(lblNombres);
-        lblNombres.setBounds(510, 90, 80, 25);
-        getContentPane().add(txtNombres);
-        txtNombres.setBounds(590, 90, 300, 28);
 
+        txtNombres.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNombres.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblApellidos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblApellidos.setText("Apellidos");
-        getContentPane().add(lblApellidos);
-        lblApellidos.setBounds(30, 135, 90, 25);
-        getContentPane().add(txtApellidos);
-        txtApellidos.setBounds(120, 135, 280, 28);
 
+        txtApellidos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtApellidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTelefono.setText("Telefono");
-        getContentPane().add(lblTelefono);
-        lblTelefono.setBounds(430, 135, 80, 25);
-        getContentPane().add(txtTelefono);
-        txtTelefono.setBounds(510, 135, 150, 28);
 
+        txtTelefono.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTelefono.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblCorreo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCorreo.setText("Correo");
-        getContentPane().add(lblCorreo);
-        lblCorreo.setBounds(690, 135, 70, 25);
-        getContentPane().add(txtCorreo);
-        txtCorreo.setBounds(760, 135, 280, 28);
 
+        txtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblDireccion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblDireccion.setText("Direccion");
-        getContentPane().add(lblDireccion);
-        lblDireccion.setBounds(30, 180, 90, 25);
-        getContentPane().add(txtDireccion);
-        txtDireccion.setBounds(120, 180, 540, 28);
 
+        txtDireccion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDireccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        chkActivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         chkActivo.setText("Activo");
-        getContentPane().add(chkActivo);
-        chkActivo.setBounds(700, 180, 100, 28);
+        chkActivo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        btnNuevo.setBackground(new java.awt.Color(0, 51, 102));
+        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/nuevo.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
-        getContentPane().add(btnNuevo);
-        btnNuevo.setBounds(30, 235, 110, 32);
+        btnNuevo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnNuevo.addActionListener(this::btnNuevoActionPerformed);
 
+        btnGuardar.setBackground(new java.awt.Color(0, 51, 102));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
-        getContentPane().add(btnGuardar);
-        btnGuardar.setBounds(150, 235, 110, 32);
+        btnGuardar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
+        btnActualizar.setBackground(new java.awt.Color(0, 51, 102));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/actualizar.png"))); // NOI18N
         btnActualizar.setText("Actualizar");
-        getContentPane().add(btnActualizar);
-        btnActualizar.setBounds(270, 235, 110, 32);
+        btnActualizar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
+        btnEliminar.setBackground(new java.awt.Color(0, 51, 102));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 0, 0));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
-        getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(390, 235, 110, 32);
+        btnEliminar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
+        btnLimpiar.setBackground(new java.awt.Color(0, 51, 102));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/limpiar.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
-        getContentPane().add(btnLimpiar);
-        btnLimpiar.setBounds(510, 235, 110, 32);
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblBuscar.setText("Buscar");
-        getContentPane().add(lblBuscar);
-        lblBuscar.setBounds(30, 295, 80, 25);
-        getContentPane().add(txtBuscar);
-        txtBuscar.setBounds(110, 295, 420, 28);
 
+        txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnBuscar.setBackground(new java.awt.Color(0, 51, 102));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/aulastock/img/buscar.png"))); // NOI18N
         btnBuscar.setText("Buscar");
-        getContentPane().add(btnBuscar);
-        btnBuscar.setBounds(540, 295, 100, 28);
+        btnBuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
+        spClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LISTADO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 51, 102))); // NOI18N
+
+        tblClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -149,17 +242,259 @@ public class FrmClientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         spClientes.setViewportView(tblClientes);
 
-        getContentPane().add(spClientes);
-        spClientes.setBounds(30, 345, 1020, 300);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Estado");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(456, 456, 456))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(380, 380, 380)
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(lblCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(112, 112, 112)
+                        .addComponent(lblDni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(lblNombres)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(lblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(lblDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel1)
+                                .addGap(32, 32, 32)
+                                .addComponent(chkActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(lblTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(lblCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(36, 36, 36))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDni, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1))
+                    .addComponent(chkActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new FrmClientes().setVisible(true));
-    }
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiarCampos();
+        listarClientes();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        // TODO add your handling code here:
+        int fila = tblClientes.getSelectedRow();
+        if (fila >= 0) {
+            txtCodigo.setText(tblClientes.getValueAt(fila, 0).toString());
+            txtDni.setText(tblClientes.getValueAt(fila, 1).toString());
+            txtNombres.setText(tblClientes.getValueAt(fila, 2).toString());
+            txtApellidos.setText(tblClientes.getValueAt(fila, 3).toString());
+            txtTelefono.setText(tblClientes.getValueAt(fila, 4).toString());
+            txtCorreo.setText(tblClientes.getValueAt(fila, 5).toString());
+            txtDireccion.setText(tblClientes.getValueAt(fila, 6).toString());
+            String estado = tblClientes.getValueAt(fila, 7).toString();
+            chkActivo.setSelected(estado.equals("Activo"));
+        }
+    }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        buscarClientes();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+        listarClientes();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (txtDni.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtApellidos.getText().trim().isEmpty() || txtTelefono.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complete los datos del cliente");
+            return;
+        }
+        Clientes clienteNuevo = new Clientes();
+
+        clienteNuevo.setDni(txtDni.getText().trim());
+        clienteNuevo.setNombres(txtNombres.getText().trim());
+        clienteNuevo.setApellidos(txtApellidos.getText().trim());
+        clienteNuevo.setTelefono(txtTelefono.getText().trim());
+        clienteNuevo.setCorreo(txtCorreo.getText().trim());
+        clienteNuevo.setDireccion(txtDireccion.getText().trim());
+        clienteNuevo.setEstado(chkActivo.isSelected());
+        boolean guardado = clientesDAO.registrar(clienteNuevo);
+
+        if (guardado) {
+            JOptionPane.showMessageDialog(this, "Cliente guardado correctamente");
+            listarClientes();
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar el cliente");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if (txtCodigo.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente");
+            return;
+        }
+
+        if (txtDni.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtApellidos.getText().trim().isEmpty() || txtTelefono.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complete los datos obligatorios del cliente");
+            return;
+        }
+
+        Clientes cliente = new Clientes();
+
+        cliente.setIdCliente(Integer.parseInt(txtCodigo.getText()));
+        cliente.setDni(txtDni.getText().trim());
+        cliente.setNombres(txtNombres.getText().trim());
+        cliente.setApellidos(txtApellidos.getText().trim());
+        cliente.setTelefono(txtTelefono.getText().trim());
+        cliente.setCorreo(txtCorreo.getText().trim());
+        cliente.setDireccion(txtDireccion.getText().trim());
+        cliente.setEstado(chkActivo.isSelected());
+
+        boolean actualizado = clientesDAO.actualizarCliente(cliente);
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
+
+            listarClientes();
+            limpiarCampos();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar el cliente");
+        }
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (txtCodigo.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente");
+            return;
+        }
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        Clientes cliente = new Clientes();
+
+        cliente.setIdCliente(Integer.parseInt(txtCodigo.getText()));
+
+        boolean eliminado = clientesDAO.eliminar(cliente);
+
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
+            listarClientes();
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar el cliente");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+        public static void main(String args[]) {
+            java.awt.EventQueue.invokeLater(() -> new FrmClientes().setVisible(true));
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -169,6 +504,7 @@ public class FrmClientes extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkActivo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblApellidos;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCodigo;

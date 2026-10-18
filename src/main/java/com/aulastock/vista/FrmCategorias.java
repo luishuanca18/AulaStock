@@ -2,10 +2,9 @@
  * Formulario generado para el proyecto AulaStock.
  */
 package com.aulastock.vista;
-
+//DAO significa Data Access Object, en español: Objeto de Acceso a Datos.
 import com.aulastock.dao.CategoriaDAO;
 import com.aulastock.modelo.Categoria;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.lang.reflect.Array;
@@ -117,6 +116,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         btnActualizar.setBounds(270, 240, 110, 32);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         getContentPane().add(btnEliminar);
         btnEliminar.setBounds(390, 240, 110, 32);
 
@@ -160,7 +160,40 @@ public class FrmCategorias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        String id = txtIdCategoria.getText().trim();
+
+        if (id.isEmpty() || txtIdCategoria.getText().equals("AUTOMATICO")) {
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una categoria");
+            return;
+
+        }
+        int idCategoria = Integer.parseInt(id);
+
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        Categoria categoria = new Categoria();
+        categoria.setIdCategoria(idCategoria);
+        boolean eliminacionExitosa = categoriaDAO.eliminar(categoria);
+
+        if (eliminacionExitosa) {
+            JOptionPane.showMessageDialog(this, "Categoria eliminada con exito");
+            cargarDatosBDaTblCategorias();
+
+            txtIdCategoria.setText("");
+            txtNombre.setText("");
+            txtDescripcion.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la Categoria");
+        }
+
+        
+    }
+
     private void tblCategoriasMouseClicked(java.awt.event.MouseEvent evt) {
+
 
         int filaSeleccionada = tblCategorias.getSelectedRow();
         txtIdCategoria.setText(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
@@ -189,13 +222,8 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         if (filaSeleccionada == -1){
             JOptionPane.showMessageDialog(this, "Seleccione una categoria");
-
             return;
         }
-
-        
-
-
         int idCategoria = Integer.parseInt(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
         categoria.setIdCategoria(idCategoria);
         categoria.setNombre(txtNombre.getText().trim());
@@ -210,15 +238,6 @@ public class FrmCategorias extends javax.swing.JFrame {
         }else {
             JOptionPane.showMessageDialog(this, "No se pudo actualizar");
         }
-
-
-
-
-
-
-
-
-
     }
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {

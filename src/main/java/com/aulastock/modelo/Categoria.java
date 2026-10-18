@@ -15,7 +15,6 @@ public class Categoria {
     public Categoria() {
 
     }
-
     public int  getIdCategoria() {
 
         return idCategoria;
@@ -60,7 +59,7 @@ public class Categoria {
     @Override
     public String toString() {
 
-        return descripcion;
+        return nombre;
     }
 
 

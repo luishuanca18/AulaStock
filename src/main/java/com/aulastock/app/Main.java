@@ -6,20 +6,20 @@ package com.aulastock.app;
 
 import com.aulastock.dao.CategoriaDAO;
 import com.aulastock.modelo.Categoria;
+import com.aulastock.util.ConexionSQL;
 import com.aulastock.vista.FrmPrincipal;
 
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class Main {
     public static void main(String[] args) {
 
-
-        CategoriaDAO categoriaDAO = new CategoriaDAO();
-
-        ArrayList prueba =  categoriaDAO.listar();
-
-        System.out.println(prueba);
 
 
 
