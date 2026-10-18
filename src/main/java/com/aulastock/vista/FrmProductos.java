@@ -13,7 +13,6 @@ import com.aulastock.util.ConexionSQL;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class FrmProductos extends javax.swing.JFrame {
 
@@ -172,6 +171,7 @@ public class FrmProductos extends javax.swing.JFrame {
         btnGuardar.setBounds(150, 235, 110, 32);
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
         getContentPane().add(btnActualizar);
         btnActualizar.setBounds(270, 235, 110, 32);
 
@@ -238,6 +238,41 @@ public class FrmProductos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {
+
+
+        Connection conexionBaseDeDatos =  ConexionSQL.conectar();
+        String usp_actualizar_productos = "{call usp_actualizar_productos(?,?,?,?,?,?,?)}";
+
+        Categoria comboBoxCategoria = (Categoria) cboCategoria.getSelectedItem();
+
+        try {
+         CallableStatement actualizarPreparada = conexionBaseDeDatos.prepareCall(usp_actualizar_productos);
+         actualizarPreparada.setString(1, txtCodigo.getText());
+         actualizarPreparada.setString(2, txtNombre.getText().trim());
+         actualizarPreparada.setInt(3, comboBoxCategoria.getIdCategoria());
+         actualizarPreparada.setDouble(4, Double.parseDouble(txtPrecio.getText().trim()));
+         actualizarPreparada.setInt(5, Integer.parseInt(txtStock.getText().trim()));
+         actualizarPreparada.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
+         actualizarPreparada.setBoolean(7,chkActivo.isSelected());
+
+         int filasActualizadas = actualizarPreparada.executeUpdate();
+         if (filasActualizadas > 0) {
+             cargarProductos();
+             JOptionPane.showMessageDialog(this,"Se ha actualizado el producto con exito");}
+         else  {JOptionPane.showMessageDialog(this,"No se ha actualizado el producto");}
+
+         actualizarPreparada.close();
+         conexionBaseDeDatos.close();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error en usp_actualizar_productos: " + e.getMessage());
+        }
+
+
+    }
+
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {
 
         String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
@@ -256,9 +291,6 @@ public class FrmProductos extends javax.swing.JFrame {
         txtPrecio.setText(tblProductos.getValueAt(filaSeleccionada, 3).toString());
         txtStock.setText(tblProductos.getValueAt(filaSeleccionada, 4).toString());
         txtStockMinimo.setText(tblProductos.getValueAt(filaSeleccionada, 5).toString());
-
-
-
 
     }
 
