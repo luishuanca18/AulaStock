@@ -111,11 +111,7 @@ INSERT INTO dbo.CATEGORIA (idCategoria, nombre, descripcion, estado) VALUES
     (5, 'Arte', 'Materiales para dibujo y pintura', 1),
     (6, 'Oficina', 'Articulos de uso administrativo', 1),
     (7, 'Tecnologia', 'Accesorios tecnologicos para estudio', 1),
-    (8, 'Mochilas', 'Mochilas, cartucheras y accesorios', 1),
-    (9, 'prueba', 'prueba descripcion', 1),
-    (10, '', NULL, 0),
-    (11, 'asdasd', 'asdasd', 1),
-    (12, 'prueba100', 'pruyebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 1);
+    (8, 'Mochilas', 'Mochilas, cartucheras y accesorios', 1);
 SET IDENTITY_INSERT dbo.CATEGORIA OFF;
 GO
 
