@@ -296,7 +296,7 @@ public class FrmProductos extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
 
-
+// las clases son mañana
 
     }
 
