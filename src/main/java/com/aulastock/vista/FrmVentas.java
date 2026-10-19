@@ -9,9 +9,32 @@ public class FrmVentas extends javax.swing.JFrame {
 
     public FrmVentas() {
         initComponents();
+        btnAgregarProducto.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnQuitarProducto.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnRegistrarVenta.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnCancelarVenta.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        javax.swing.table.DefaultTableCellRenderer encabezadoTabla =
+                new javax.swing.table.DefaultTableCellRenderer();
+        encabezadoTabla.setBackground(new java.awt.Color(26, 48, 76));
+        encabezadoTabla.setForeground(java.awt.Color.WHITE);
+        encabezadoTabla.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        encabezadoTabla.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        encabezadoTabla.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        tblDetalleVenta.getTableHeader().setDefaultRenderer(encabezadoTabla);
+        getContentPane().setBackground(new java.awt.Color(244, 247, 251));
+        spDetalleVenta.getViewport().setBackground(java.awt.Color.WHITE);
+        tblDetalleVenta.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        tblDetalleVenta.getTableHeader().setBackground(new java.awt.Color(26, 48, 76));
+        tblDetalleVenta.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblDetalleVenta.getTableHeader().setPreferredSize(new java.awt.Dimension(800, 36));
+        tblDetalleVenta.getTableHeader().setReorderingAllowed(false);
         setSize(1180, 760);
         setLocationRelativeTo(null);
     }
+
+
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -24,6 +47,10 @@ public class FrmVentas extends javax.swing.JFrame {
         txtFecha = new javax.swing.JTextField();
         lblCliente = new javax.swing.JLabel();
         cboCliente = new javax.swing.JComboBox();
+        lblTipoDocumento = new javax.swing.JLabel();
+        cboTipoDocumento = new javax.swing.JComboBox<>();
+        lblNumeroDocumento = new javax.swing.JLabel();
+        txtNumeroDocumento = new javax.swing.JTextField();
         lblProducto = new javax.swing.JLabel();
         cboProducto = new javax.swing.JComboBox();
         lblCantidad = new javax.swing.JLabel();
@@ -43,11 +70,9 @@ public class FrmVentas extends javax.swing.JFrame {
         setTitle("AulaStock - Ventas");
         setResizable(false);
         getContentPane().setLayout(null);
-
-        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 28)); // NOI18N
         lblTitulo.setText("REGISTRO DE VENTAS");
         getContentPane().add(lblTitulo);
-        lblTitulo.setBounds(30, 20, 520, 45);
+        lblTitulo.setBounds(0, 0, 1180, 72);
 
         lblNumeroVenta.setText("Nro. venta");
         getContentPane().add(lblNumeroVenta);
@@ -55,47 +80,64 @@ public class FrmVentas extends javax.swing.JFrame {
 
         txtNumeroVenta.setEditable(false);
         getContentPane().add(txtNumeroVenta);
-        txtNumeroVenta.setBounds(130, 90, 150, 28);
+        txtNumeroVenta.setBounds(130, 90, 150, 34);
 
         lblFecha.setText("Fecha");
         getContentPane().add(lblFecha);
         lblFecha.setBounds(310, 90, 70, 25);
         getContentPane().add(txtFecha);
-        txtFecha.setBounds(380, 90, 150, 28);
+        txtFecha.setBounds(380, 90, 150, 34);
 
         lblCliente.setText("Cliente");
         getContentPane().add(lblCliente);
         lblCliente.setBounds(560, 90, 70, 25);
         getContentPane().add(cboCliente);
-        cboCliente.setBounds(630, 90, 420, 28);
+        cboCliente.setBounds(630, 90, 420, 34);
+
+        lblTipoDocumento.setText("Tipo de documento");
+        getContentPane().add(lblTipoDocumento);
+        lblTipoDocumento.setBounds(30, 140, 130, 25);
+
+        cboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+            "Boleta", "Factura", "Otro"
+        }));
+        getContentPane().add(cboTipoDocumento);
+        cboTipoDocumento.setBounds(170, 140, 180, 34);
+
+        lblNumeroDocumento.setText("Nro. documento");
+        getContentPane().add(lblNumeroDocumento);
+        lblNumeroDocumento.setBounds(390, 140, 120, 25);
+
+        getContentPane().add(txtNumeroDocumento);
+        txtNumeroDocumento.setBounds(520, 140, 250, 34);
 
         lblProducto.setText("Producto");
         getContentPane().add(lblProducto);
-        lblProducto.setBounds(30, 145, 80, 25);
+        lblProducto.setBounds(30, 195, 80, 25);
         getContentPane().add(cboProducto);
-        cboProducto.setBounds(110, 145, 360, 28);
+        cboProducto.setBounds(110, 195, 360, 34);
 
         lblCantidad.setText("Cantidad");
         getContentPane().add(lblCantidad);
-        lblCantidad.setBounds(500, 145, 80, 25);
+        lblCantidad.setBounds(500, 195, 80, 25);
         getContentPane().add(txtCantidad);
-        txtCantidad.setBounds(580, 145, 100, 28);
+        txtCantidad.setBounds(580, 195, 100, 34);
 
         lblPrecio.setText("Precio");
         getContentPane().add(lblPrecio);
-        lblPrecio.setBounds(710, 145, 70, 25);
+        lblPrecio.setBounds(710, 195, 70, 25);
 
         txtPrecio.setEditable(false);
         getContentPane().add(txtPrecio);
-        txtPrecio.setBounds(780, 145, 120, 28);
+        txtPrecio.setBounds(780, 195, 120, 34);
 
         btnAgregarProducto.setText("Agregar");
         getContentPane().add(btnAgregarProducto);
-        btnAgregarProducto.setBounds(930, 145, 110, 30);
+        btnAgregarProducto.setBounds(925, 192, 116, 38);
 
         btnQuitarProducto.setText("Quitar");
         getContentPane().add(btnQuitarProducto);
-        btnQuitarProducto.setBounds(1050, 145, 90, 30);
+        btnQuitarProducto.setBounds(1048, 192, 92, 38);
 
         tblDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,25 +158,120 @@ public class FrmVentas extends javax.swing.JFrame {
         spDetalleVenta.setViewportView(tblDetalleVenta);
 
         getContentPane().add(spDetalleVenta);
-        spDetalleVenta.setBounds(30, 210, 1110, 350);
-
-        lblTotalTexto.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        spDetalleVenta.setBounds(30, 250, 1110, 310);
         lblTotalTexto.setText("TOTAL");
         getContentPane().add(lblTotalTexto);
         lblTotalTexto.setBounds(780, 590, 100, 35);
-
-        lblTotal.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         lblTotal.setText("S/ 0.00");
         getContentPane().add(lblTotal);
         lblTotal.setBounds(900, 590, 200, 35);
 
         btnRegistrarVenta.setText("Registrar venta");
         getContentPane().add(btnRegistrarVenta);
-        btnRegistrarVenta.setBounds(780, 645, 160, 36);
+        btnRegistrarVenta.setBounds(735, 645, 190, 42);
 
         btnCancelarVenta.setText("Cancelar");
         getContentPane().add(btnCancelarVenta);
-        btnCancelarVenta.setBounds(960, 645, 140, 36);
+        btnCancelarVenta.setBounds(945, 645, 155, 42);
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 25));
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblNumeroVenta.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblNumeroVenta.setForeground(new java.awt.Color(99, 115, 134));
+        txtNumeroVenta.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtNumeroVenta.setForeground(new java.awt.Color(39, 56, 77));
+        txtNumeroVenta.setBackground(new java.awt.Color(231, 237, 245));
+        txtNumeroVenta.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblFecha.setForeground(new java.awt.Color(99, 115, 134));
+        txtFecha.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtFecha.setForeground(new java.awt.Color(39, 56, 77));
+        txtFecha.setBackground(new java.awt.Color(255, 255, 255));
+        txtFecha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblCliente.setForeground(new java.awt.Color(99, 115, 134));
+        cboCliente.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cboCliente.setForeground(new java.awt.Color(39, 56, 77));
+        cboCliente.setBackground(new java.awt.Color(255, 255, 255));
+        cboCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        lblTipoDocumento.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblTipoDocumento.setForeground(new java.awt.Color(99, 115, 134));
+        cboTipoDocumento.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cboTipoDocumento.setForeground(new java.awt.Color(39, 56, 77));
+        cboTipoDocumento.setBackground(new java.awt.Color(255, 255, 255));
+        cboTipoDocumento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        lblNumeroDocumento.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblNumeroDocumento.setForeground(new java.awt.Color(99, 115, 134));
+        txtNumeroDocumento.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtNumeroDocumento.setForeground(new java.awt.Color(39, 56, 77));
+        txtNumeroDocumento.setBackground(new java.awt.Color(255, 255, 255));
+        txtNumeroDocumento.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblProducto.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblProducto.setForeground(new java.awt.Color(99, 115, 134));
+        cboProducto.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cboProducto.setForeground(new java.awt.Color(39, 56, 77));
+        cboProducto.setBackground(new java.awt.Color(255, 255, 255));
+        cboProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        lblCantidad.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblCantidad.setForeground(new java.awt.Color(99, 115, 134));
+        txtCantidad.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtCantidad.setForeground(new java.awt.Color(39, 56, 77));
+        txtCantidad.setBackground(new java.awt.Color(255, 255, 255));
+        txtCantidad.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblPrecio.setForeground(new java.awt.Color(99, 115, 134));
+        txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtPrecio.setForeground(new java.awt.Color(39, 56, 77));
+        txtPrecio.setBackground(new java.awt.Color(231, 237, 245));
+        txtPrecio.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        spDetalleVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        tblDetalleVenta.setFont(new java.awt.Font("Segoe UI", 0, 13));
+        tblDetalleVenta.setForeground(new java.awt.Color(39, 56, 77));
+        tblDetalleVenta.setBackground(new java.awt.Color(255, 255, 255));
+        tblDetalleVenta.setRowHeight(30);
+        tblDetalleVenta.setShowVerticalLines(false);
+        tblDetalleVenta.setGridColor(new java.awt.Color(232, 237, 244));
+        tblDetalleVenta.setSelectionBackground(new java.awt.Color(218, 234, 248));
+        tblDetalleVenta.setSelectionForeground(new java.awt.Color(26, 48, 76));
+        lblTotalTexto.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        lblTotalTexto.setForeground(new java.awt.Color(26, 48, 76));
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 24));
+        lblTotal.setForeground(new java.awt.Color(20, 126, 103));
+        lblTitulo.setBackground(new java.awt.Color(26, 48, 76));
+        lblTitulo.setOpaque(true);
+        lblTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnAgregarProducto.setBackground(new java.awt.Color(226, 238, 252));
+        btnAgregarProducto.setForeground(new java.awt.Color(26, 48, 76));
+        btnAgregarProducto.setOpaque(true);
+        btnAgregarProducto.setFocusPainted(false);
+        btnAgregarProducto.setIconTextGap(8);
+        btnAgregarProducto.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/agregar.png")));
+        btnQuitarProducto.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnQuitarProducto.setBackground(new java.awt.Color(253, 232, 235));
+        btnQuitarProducto.setForeground(new java.awt.Color(143, 32, 47));
+        btnQuitarProducto.setOpaque(true);
+        btnQuitarProducto.setFocusPainted(false);
+        btnQuitarProducto.setIconTextGap(8);
+        btnQuitarProducto.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnQuitarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/quitar.png")));
+        btnRegistrarVenta.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnRegistrarVenta.setBackground(new java.awt.Color(20, 126, 103));
+        btnRegistrarVenta.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarVenta.setOpaque(true);
+        btnRegistrarVenta.setFocusPainted(false);
+        btnRegistrarVenta.setIconTextGap(8);
+        btnRegistrarVenta.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnRegistrarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/guardar-claro.png")));
+        btnCancelarVenta.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnCancelarVenta.setBackground(new java.awt.Color(225, 232, 240));
+        btnCancelarVenta.setForeground(new java.awt.Color(39, 56, 77));
+        btnCancelarVenta.setOpaque(true);
+        btnCancelarVenta.setFocusPainted(false);
+        btnCancelarVenta.setIconTextGap(8);
+        btnCancelarVenta.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnCancelarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/cancelar.png")));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -150,6 +287,10 @@ public class FrmVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarVenta;
     private javax.swing.JComboBox cboCliente;
     private javax.swing.JComboBox cboProducto;
+    private javax.swing.JComboBox<String> cboTipoDocumento;
+    private javax.swing.JLabel lblTipoDocumento;
+    private javax.swing.JLabel lblNumeroDocumento;
+    private javax.swing.JTextField txtNumeroDocumento;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblFecha;

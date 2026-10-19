@@ -18,10 +18,32 @@ public class FrmProductos extends javax.swing.JFrame {
 
     public FrmProductos() {
         initComponents();
+        btnNuevo.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnGuardar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnActualizar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnLimpiar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnBuscar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        javax.swing.table.DefaultTableCellRenderer encabezadoTabla =
+                new javax.swing.table.DefaultTableCellRenderer();
+        encabezadoTabla.setBackground(new java.awt.Color(26, 48, 76));
+        encabezadoTabla.setForeground(java.awt.Color.WHITE);
+        encabezadoTabla.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        encabezadoTabla.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        encabezadoTabla.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        tblProductos.getTableHeader().setDefaultRenderer(encabezadoTabla);
+        getContentPane().setBackground(new java.awt.Color(244, 247, 251));
+        spProductos.getViewport().setBackground(java.awt.Color.WHITE);
+        tblProductos.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        tblProductos.getTableHeader().setBackground(new java.awt.Color(26, 48, 76));
+        tblProductos.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblProductos.getTableHeader().setPreferredSize(new java.awt.Dimension(800, 36));
+        tblProductos.getTableHeader().setReorderingAllowed(false);
         setSize(1050, 700);
         setLocationRelativeTo(null);
         cargarCategorias();
         cargarProductos();
+
     }
     private void cargarProductos() {
 
@@ -115,47 +137,45 @@ public class FrmProductos extends javax.swing.JFrame {
         setTitle("AulaStock - Productos");
         setResizable(false);
         getContentPane().setLayout(null);
-
-        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 28)); // NOI18N
         lblTitulo.setText("GESTION DE PRODUCTOS");
         getContentPane().add(lblTitulo);
-        lblTitulo.setBounds(30, 20, 520, 45);
+        lblTitulo.setBounds(0, 0, 1050, 72);
 
         lblCodigo.setText("Codigo");
         getContentPane().add(lblCodigo);
         lblCodigo.setBounds(30, 90, 100, 25);
         getContentPane().add(txtCodigo);
-        txtCodigo.setBounds(140, 90, 150, 28);
+        txtCodigo.setBounds(140, 90, 150, 34);
 
         lblNombre.setText("Nombre");
         getContentPane().add(lblNombre);
         lblNombre.setBounds(320, 90, 100, 25);
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(420, 90, 300, 28);
+        txtNombre.setBounds(420, 90, 300, 34);
 
         lblCategoria.setText("Categoria");
         getContentPane().add(lblCategoria);
         lblCategoria.setBounds(30, 135, 100, 25);
         getContentPane().add(cboCategoria);
-        cboCategoria.setBounds(140, 135, 220, 28);
+        cboCategoria.setBounds(140, 135, 220, 34);
 
         lblPrecio.setText("Precio");
         getContentPane().add(lblPrecio);
         lblPrecio.setBounds(390, 135, 80, 25);
         getContentPane().add(txtPrecio);
-        txtPrecio.setBounds(470, 135, 120, 28);
+        txtPrecio.setBounds(470, 135, 120, 34);
 
         lblStock.setText("Stock");
         getContentPane().add(lblStock);
         lblStock.setBounds(620, 135, 70, 25);
         getContentPane().add(txtStock);
-        txtStock.setBounds(690, 135, 100, 28);
+        txtStock.setBounds(690, 135, 100, 34);
 
         lblStockMinimo.setText("Stock minimo");
         getContentPane().add(lblStockMinimo);
         lblStockMinimo.setBounds(30, 180, 100, 25);
         getContentPane().add(txtStockMinimo);
-        txtStockMinimo.setBounds(140, 180, 120, 28);
+        txtStockMinimo.setBounds(140, 180, 120, 34);
 
         chkActivo.setText("Activo");
         getContentPane().add(chkActivo);
@@ -163,37 +183,37 @@ public class FrmProductos extends javax.swing.JFrame {
 
         btnNuevo.setText("Nuevo");
         getContentPane().add(btnNuevo);
-        btnNuevo.setBounds(30, 235, 110, 32);
+        btnNuevo.setBounds(30, 235, 134, 40);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
-        btnGuardar.setBounds(150, 235, 110, 32);
+        btnGuardar.setBounds(174, 235, 134, 40);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
         getContentPane().add(btnActualizar);
-        btnActualizar.setBounds(270, 235, 110, 32);
+        btnActualizar.setBounds(318, 235, 134, 40);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(390, 235, 110, 32);
+        btnEliminar.setBounds(462, 235, 134, 40);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         getContentPane().add(btnLimpiar);
-        btnLimpiar.setBounds(510, 235, 110, 32);
+        btnLimpiar.setBounds(606, 235, 134, 40);
 
         lblBuscar.setText("Buscar");
         getContentPane().add(lblBuscar);
         lblBuscar.setBounds(30, 295, 80, 25);
         getContentPane().add(txtBuscar);
-        txtBuscar.setBounds(110, 295, 360, 28);
+        txtBuscar.setBounds(110, 295, 520, 36);
 
         btnBuscar.setText("Buscar");
         getContentPane().add(btnBuscar);
-        btnBuscar.setBounds(480, 295, 100, 28);
+        btnBuscar.setBounds(650, 295, 140, 36);
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -235,6 +255,114 @@ public class FrmProductos extends javax.swing.JFrame {
 
         getContentPane().add(spProductos);
         spProductos.setBounds(30, 345, 760, 280);
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 25));
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblCodigo.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblCodigo.setForeground(new java.awt.Color(99, 115, 134));
+        txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtCodigo.setForeground(new java.awt.Color(39, 56, 77));
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblNombre.setForeground(new java.awt.Color(99, 115, 134));
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtNombre.setForeground(new java.awt.Color(39, 56, 77));
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblCategoria.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblCategoria.setForeground(new java.awt.Color(99, 115, 134));
+        cboCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cboCategoria.setForeground(new java.awt.Color(39, 56, 77));
+        cboCategoria.setBackground(new java.awt.Color(255, 255, 255));
+        cboCategoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblPrecio.setForeground(new java.awt.Color(99, 115, 134));
+        txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtPrecio.setForeground(new java.awt.Color(39, 56, 77));
+        txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrecio.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblStock.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblStock.setForeground(new java.awt.Color(99, 115, 134));
+        txtStock.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtStock.setForeground(new java.awt.Color(39, 56, 77));
+        txtStock.setBackground(new java.awt.Color(255, 255, 255));
+        txtStock.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblStockMinimo.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblStockMinimo.setForeground(new java.awt.Color(99, 115, 134));
+        txtStockMinimo.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtStockMinimo.setForeground(new java.awt.Color(39, 56, 77));
+        txtStockMinimo.setBackground(new java.awt.Color(255, 255, 255));
+        txtStockMinimo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        chkActivo.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        chkActivo.setForeground(new java.awt.Color(39, 56, 77));
+        chkActivo.setOpaque(false);
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblBuscar.setForeground(new java.awt.Color(99, 115, 134));
+        txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtBuscar.setForeground(new java.awt.Color(39, 56, 77));
+        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        txtBuscar.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        spProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        tblProductos.setFont(new java.awt.Font("Segoe UI", 0, 13));
+        tblProductos.setForeground(new java.awt.Color(39, 56, 77));
+        tblProductos.setBackground(new java.awt.Color(255, 255, 255));
+        tblProductos.setRowHeight(30);
+        tblProductos.setShowVerticalLines(false);
+        tblProductos.setGridColor(new java.awt.Color(232, 237, 244));
+        tblProductos.setSelectionBackground(new java.awt.Color(218, 234, 248));
+        tblProductos.setSelectionForeground(new java.awt.Color(26, 48, 76));
+        lblTitulo.setBackground(new java.awt.Color(26, 48, 76));
+        lblTitulo.setOpaque(true);
+        lblTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnNuevo.setBackground(new java.awt.Color(226, 238, 252));
+        btnNuevo.setForeground(new java.awt.Color(26, 48, 76));
+        btnNuevo.setOpaque(true);
+        btnNuevo.setFocusPainted(false);
+        btnNuevo.setIconTextGap(8);
+        btnNuevo.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/nuevo.png")));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnGuardar.setBackground(new java.awt.Color(20, 126, 103));
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setOpaque(true);
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setIconTextGap(8);
+        btnGuardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/guardar-claro.png")));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnActualizar.setBackground(new java.awt.Color(226, 238, 252));
+        btnActualizar.setForeground(new java.awt.Color(26, 48, 76));
+        btnActualizar.setOpaque(true);
+        btnActualizar.setFocusPainted(false);
+        btnActualizar.setIconTextGap(8);
+        btnActualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/actualizar.png")));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnEliminar.setBackground(new java.awt.Color(253, 232, 235));
+        btnEliminar.setForeground(new java.awt.Color(143, 32, 47));
+        btnEliminar.setOpaque(true);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setIconTextGap(8);
+        btnEliminar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/eliminar.png")));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnLimpiar.setBackground(new java.awt.Color(225, 232, 240));
+        btnLimpiar.setForeground(new java.awt.Color(39, 56, 77));
+        btnLimpiar.setOpaque(true);
+        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setIconTextGap(8);
+        btnLimpiar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/limpiar.png")));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnBuscar.setBackground(new java.awt.Color(226, 238, 252));
+        btnBuscar.setForeground(new java.awt.Color(26, 48, 76));
+        btnBuscar.setOpaque(true);
+        btnBuscar.setFocusPainted(false);
+        btnBuscar.setIconTextGap(8);
+        btnBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/buscar.png")));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

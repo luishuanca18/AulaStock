@@ -16,6 +16,24 @@ import javax.swing.table.DefaultTableModel;
 public class FrmReportes extends javax.swing.JFrame {
     public FrmReportes() {
         initComponents();
+        btnGenerar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnLimpiar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        javax.swing.table.DefaultTableCellRenderer encabezadoTabla =
+                new javax.swing.table.DefaultTableCellRenderer();
+        encabezadoTabla.setBackground(new java.awt.Color(26, 48, 76));
+        encabezadoTabla.setForeground(java.awt.Color.WHITE);
+        encabezadoTabla.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        encabezadoTabla.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        encabezadoTabla.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        tblReporte.getTableHeader().setDefaultRenderer(encabezadoTabla);
+        getContentPane().setBackground(new java.awt.Color(244, 247, 251));
+        spReporte.getViewport().setBackground(java.awt.Color.WHITE);
+        tblReporte.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        tblReporte.getTableHeader().setBackground(new java.awt.Color(26, 48, 76));
+        tblReporte.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblReporte.getTableHeader().setPreferredSize(new java.awt.Dimension(800, 36));
+        tblReporte.getTableHeader().setReorderingAllowed(false);
+        spResumen.getViewport().setBackground(java.awt.Color.WHITE);
         setSize(1050, 700);
         setLocationRelativeTo(null);
 
@@ -185,37 +203,35 @@ public class FrmReportes extends javax.swing.JFrame {
         setTitle("AulaStock - Reportes");
         setResizable(false);
         getContentPane().setLayout(null);
-
-        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 28)); // NOI18N
         lblTitulo.setText("REPORTES");
         getContentPane().add(lblTitulo);
-        lblTitulo.setBounds(30, 20, 520, 45);
+        lblTitulo.setBounds(0, 0, 1050, 72);
 
         lblTipoReporte.setText("Tipo de reporte");
         getContentPane().add(lblTipoReporte);
         lblTipoReporte.setBounds(30, 90, 120, 25);
         getContentPane().add(cboTipoReporte);
-        cboTipoReporte.setBounds(150, 90, 280, 28);
+        cboTipoReporte.setBounds(150, 90, 280, 34);
 
         lblFechaDesde.setText("Desde");
         getContentPane().add(lblFechaDesde);
         lblFechaDesde.setBounds(460, 90, 60, 25);
         getContentPane().add(txtFechaDesde);
-        txtFechaDesde.setBounds(520, 90, 140, 28);
+        txtFechaDesde.setBounds(520, 90, 140, 34);
 
         lblFechaHasta.setText("Hasta");
         getContentPane().add(lblFechaHasta);
         lblFechaHasta.setBounds(690, 90, 60, 25);
         getContentPane().add(txtFechaHasta);
-        txtFechaHasta.setBounds(750, 90, 140, 28);
+        txtFechaHasta.setBounds(750, 90, 140, 34);
 
         btnGenerar.setText("Generar");
         getContentPane().add(btnGenerar);
-        btnGenerar.setBounds(30, 140, 110, 32);
+        btnGenerar.setBounds(30, 140, 140, 40);
 
         btnLimpiar.setText("Limpiar");
         getContentPane().add(btnLimpiar);
-        btnLimpiar.setBounds(150, 140, 110, 32);
+        btnLimpiar.setBounds(185, 140, 140, 40);
 
         tblReporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -237,8 +253,6 @@ public class FrmReportes extends javax.swing.JFrame {
 
         getContentPane().add(spReporte);
         spReporte.setBounds(30, 200, 960, 320);
-
-        lblResumen.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblResumen.setText("RESUMEN");
         getContentPane().add(lblResumen);
         lblResumen.setBounds(30, 550, 120, 30);
@@ -250,6 +264,64 @@ public class FrmReportes extends javax.swing.JFrame {
 
         getContentPane().add(spResumen);
         spResumen.setBounds(150, 545, 840, 90);
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 25));
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTipoReporte.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblTipoReporte.setForeground(new java.awt.Color(99, 115, 134));
+        cboTipoReporte.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cboTipoReporte.setForeground(new java.awt.Color(39, 56, 77));
+        cboTipoReporte.setBackground(new java.awt.Color(255, 255, 255));
+        cboTipoReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        lblFechaDesde.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblFechaDesde.setForeground(new java.awt.Color(99, 115, 134));
+        txtFechaDesde.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtFechaDesde.setForeground(new java.awt.Color(39, 56, 77));
+        txtFechaDesde.setBackground(new java.awt.Color(255, 255, 255));
+        txtFechaDesde.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        lblFechaHasta.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblFechaHasta.setForeground(new java.awt.Color(99, 115, 134));
+        txtFechaHasta.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtFechaHasta.setForeground(new java.awt.Color(39, 56, 77));
+        txtFechaHasta.setBackground(new java.awt.Color(255, 255, 255));
+        txtFechaHasta.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        spReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        tblReporte.setFont(new java.awt.Font("Segoe UI", 0, 13));
+        tblReporte.setForeground(new java.awt.Color(39, 56, 77));
+        tblReporte.setBackground(new java.awt.Color(255, 255, 255));
+        tblReporte.setRowHeight(30);
+        tblReporte.setShowVerticalLines(false);
+        tblReporte.setGridColor(new java.awt.Color(232, 237, 244));
+        tblReporte.setSelectionBackground(new java.awt.Color(218, 234, 248));
+        tblReporte.setSelectionForeground(new java.awt.Color(26, 48, 76));
+        lblResumen.setFont(new java.awt.Font("Segoe UI", 1, 15));
+        lblResumen.setForeground(new java.awt.Color(26, 48, 76));
+        spResumen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
+        txtResumen.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtResumen.setForeground(new java.awt.Color(39, 56, 77));
+        txtResumen.setBackground(new java.awt.Color(255, 255, 255));
+        txtResumen.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 9, 6, 9));
+        txtResumen.setLineWrap(true);
+        txtResumen.setWrapStyleWord(true);
+        lblTitulo.setBackground(new java.awt.Color(26, 48, 76));
+        lblTitulo.setOpaque(true);
+        lblTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        btnGenerar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnGenerar.setBackground(new java.awt.Color(20, 126, 103));
+        btnGenerar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerar.setOpaque(true);
+        btnGenerar.setFocusPainted(false);
+        btnGenerar.setIconTextGap(8);
+        btnGenerar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/reportes-claro.png")));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnLimpiar.setBackground(new java.awt.Color(225, 232, 240));
+        btnLimpiar.setForeground(new java.awt.Color(39, 56, 77));
+        btnLimpiar.setOpaque(true);
+        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setIconTextGap(8);
+        btnLimpiar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/limpiar.png")));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

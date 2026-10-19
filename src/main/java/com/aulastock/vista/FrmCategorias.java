@@ -14,6 +14,16 @@ public class FrmCategorias extends javax.swing.JFrame {
 
     public FrmCategorias() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(244, 247, 251));
+        spCategorias.getViewport().setBackground(java.awt.Color.WHITE);
+        tblCategorias.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        tblCategorias.getTableHeader().setBackground(new java.awt.Color(26, 48, 76));
+        tblCategorias.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblCategorias.getTableHeader().setPreferredSize(new java.awt.Dimension(820, 36));
+        tblCategorias.getTableHeader().setReorderingAllowed(false);
+        tblCategorias.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tblCategorias.getColumnModel().getColumn(1).setPreferredWidth(250);
+        tblCategorias.getColumnModel().getColumn(2).setPreferredWidth(470);
         setSize(900, 650);
         setLocationRelativeTo(null);
         chkActivo.setSelected(true);
@@ -73,63 +83,129 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 28)); // NOI18N
         lblTitulo.setText("GESTION DE CATEGORIAS");
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 25));
+        lblTitulo.setForeground(java.awt.Color.WHITE);
+        lblTitulo.setBackground(new java.awt.Color(26, 48, 76));
+        lblTitulo.setOpaque(true);
+        lblTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 30, 0, 0));
         getContentPane().add(lblTitulo);
-        lblTitulo.setBounds(30, 20, 520, 45);
+        lblTitulo.setBounds(0, 0, 900, 72);
 
         lblIdCategoria.setText("ID Categoria");
+        lblIdCategoria.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblIdCategoria.setForeground(new java.awt.Color(99, 115, 134));
         getContentPane().add(lblIdCategoria);
         lblIdCategoria.setBounds(30, 90, 100, 25);
 
         txtIdCategoria.setEditable(false);
+        txtIdCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtIdCategoria.setForeground(new java.awt.Color(39, 56, 77));
+        txtIdCategoria.setBackground(new java.awt.Color(231, 237, 245));
+        txtIdCategoria.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
         getContentPane().add(txtIdCategoria);
-        txtIdCategoria.setBounds(140, 90, 150, 28);
+        txtIdCategoria.setBounds(140, 94, 150, 34);
 
         lblNombre.setText("Nombre");
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblNombre.setForeground(new java.awt.Color(99, 115, 134));
         getContentPane().add(lblNombre);
         lblNombre.setBounds(320, 90, 100, 25);
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtNombre.setForeground(new java.awt.Color(39, 56, 77));
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(420, 90, 300, 28);
+        txtNombre.setBounds(420, 94, 300, 34);
 
         lblDescripcion.setText("Descripcion");
+        lblDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblDescripcion.setForeground(new java.awt.Color(99, 115, 134));
         getContentPane().add(lblDescripcion);
         lblDescripcion.setBounds(30, 135, 100, 25);
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtDescripcion.setForeground(new java.awt.Color(39, 56, 77));
+        txtDescripcion.setLineWrap(true);
+        txtDescripcion.setWrapStyleWord(true);
+        txtDescripcion.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 9, 6, 9));
         spDescripcion.setViewportView(txtDescripcion);
 
+        spDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
         getContentPane().add(spDescripcion);
-        spDescripcion.setBounds(140, 135, 580, 80);
+        spDescripcion.setBounds(140, 145, 580, 80);
 
         chkActivo.setText("Activo");
+        chkActivo.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        chkActivo.setForeground(new java.awt.Color(39, 56, 77));
+        chkActivo.setOpaque(false);
         getContentPane().add(chkActivo);
-        chkActivo.setBounds(740, 135, 100, 28);
+        chkActivo.setBounds(740, 145, 105, 30);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnGuardar.setBackground(new java.awt.Color(20, 126, 103));
+        btnGuardar.setForeground(java.awt.Color.WHITE);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/guardar.png")));
+        btnGuardar.setIconTextGap(8);
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setOpaque(true);
+        btnGuardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
         getContentPane().add(btnGuardar);
-        btnGuardar.setBounds(150, 240, 110, 32);
+        btnGuardar.setBounds(140, 250, 132, 40);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnActualizar.setBackground(new java.awt.Color(226, 238, 252));
+        btnActualizar.setForeground(new java.awt.Color(26, 48, 76));
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/actualizar.png")));
+        btnActualizar.setIconTextGap(8);
+        btnActualizar.setFocusPainted(false);
+        btnActualizar.setOpaque(true);
+        btnActualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
         getContentPane().add(btnActualizar);
-        btnActualizar.setBounds(270, 240, 110, 32);
+        btnActualizar.setBounds(282, 250, 132, 40);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnEliminar.setBackground(new java.awt.Color(253, 232, 235));
+        btnEliminar.setForeground(new java.awt.Color(143, 32, 47));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/eliminar.png")));
+        btnEliminar.setIconTextGap(8);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setOpaque(true);
+        btnEliminar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(390, 240, 110, 32);
+        btnEliminar.setBounds(424, 250, 132, 40);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        btnLimpiar.setBackground(new java.awt.Color(225, 232, 240));
+        btnLimpiar.setForeground(new java.awt.Color(39, 56, 77));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/limpiar.png")));
+        btnLimpiar.setIconTextGap(8);
+        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setOpaque(true);
+        btnLimpiar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
         getContentPane().add(btnLimpiar);
-        btnLimpiar.setBounds(510, 240, 110, 32);
+        btnLimpiar.setBounds(566, 250, 132, 40);
 
         lblBuscar.setText("Buscar");
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13));
+        lblBuscar.setForeground(new java.awt.Color(99, 115, 134));
         getContentPane().add(lblBuscar);
         lblBuscar.setBounds(30, 300, 80, 25);
+        txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        txtBuscar.setForeground(new java.awt.Color(39, 56, 77));
+        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        txtBuscar.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
         getContentPane().add(txtBuscar);
-        txtBuscar.setBounds(110, 300, 360, 28);
+        txtBuscar.setBounds(110, 310, 610, 34);
 
         tblCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -147,6 +223,14 @@ public class FrmCategorias extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblCategorias.setFont(new java.awt.Font("Segoe UI", 0, 13));
+        tblCategorias.setForeground(new java.awt.Color(39, 56, 77));
+        tblCategorias.setBackground(java.awt.Color.WHITE);
+        tblCategorias.setRowHeight(30);
+        tblCategorias.setShowVerticalLines(false);
+        tblCategorias.setGridColor(new java.awt.Color(232, 237, 244));
+        tblCategorias.setSelectionBackground(new java.awt.Color(218, 234, 248));
+        tblCategorias.setSelectionForeground(new java.awt.Color(26, 48, 76));
         tblCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblCategoriasMouseClicked(evt);
@@ -154,8 +238,9 @@ public class FrmCategorias extends javax.swing.JFrame {
         });
         spCategorias.setViewportView(tblCategorias);
 
+        spCategorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(211, 220, 231)));
         getContentPane().add(spCategorias);
-        spCategorias.setBounds(30, 350, 820, 220);
+        spCategorias.setBounds(30, 365, 820, 230);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
