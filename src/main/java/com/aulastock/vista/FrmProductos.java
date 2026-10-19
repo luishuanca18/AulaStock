@@ -176,6 +176,7 @@ public class FrmProductos extends javax.swing.JFrame {
         btnActualizar.setBounds(270, 235, 110, 32);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         getContentPane().add(btnEliminar);
         btnEliminar.setBounds(390, 235, 110, 32);
 
@@ -292,11 +293,61 @@ public class FrmProductos extends javax.swing.JFrame {
         txtStock.setText(tblProductos.getValueAt(filaSeleccionada, 4).toString());
         txtStockMinimo.setText(tblProductos.getValueAt(filaSeleccionada, 5).toString());
 
+
     }
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
+        int filaSeleccionada = tblProductos.getSelectedRow();
 
+        if (filaSeleccionada >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+            if (confirmar == JOptionPane.YES_OPTION) {
+                Connection conexionBaseDeDatos = ConexionSQL.conectar();
+                String usp_eliminar_productos = "{call usp_eliminar_productos(?)}";
+
+                try {
+                    CallableStatement eliminarPreparada = conexionBaseDeDatos.prepareCall(usp_eliminar_productos);
+
+                    // Obtenemos el código quitando espacios en blanco por seguridad
+                    String codigoProducto = tblProductos.getValueAt(filaSeleccionada, 0).toString().trim();
+                    eliminarPreparada.setString(1, codigoProducto);
+
+                    eliminarPreparada.executeUpdate();
+
+                    eliminarPreparada.close();
+                    conexionBaseDeDatos.close();
+
+                    // Aquí refrescamos la jtable y vaciamos las cajas de texto en pantalla
+                    cargarProductos();
+                    btnLimpiarActionPerformed(evt);
+
+                    JOptionPane.showMessageDialog(this, "Se ha eliminado el producto con éxito de la base de datos y de la tabla");
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Error al eliminar en la base de datos: " + e.getMessage());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un producto de la tabla para eliminar");
+        }
+
+    }
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
+         {
+            txtCodigo.setText("");
+            txtNombre.setText("");
+            txtPrecio.setText("");
+            txtStock.setText("");
+            txtStockMinimo.setText("");
+            txtBuscar.setText("");
 
-// las clases son mañana
+            if (cboCategoria.getItemCount() > 0) {
+                cboCategoria.setSelectedIndex(0);
+            }
+
+            chkActivo.setSelected(false);
+            tblProductos.clearSelection();
+        }
 
     }
 
