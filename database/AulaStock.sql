@@ -1,7 +1,3 @@
-/*
-    AulaStock - estructura, procedimientos y datos iniciales
-    Ejecutar todo el archivo desde SQL Server Management Studio.
-*/
 
 USE master;
 GO
@@ -15,7 +11,7 @@ GO
 USE AulaStock;
 GO
 
-/* Permite ejecutar nuevamente el script durante la instalacion inicial. */
+
 IF OBJECT_ID(N'dbo.movimientoInventario', N'U') IS NOT NULL DROP TABLE dbo.movimientoInventario;
 IF OBJECT_ID(N'dbo.detalleVenta', N'U') IS NOT NULL DROP TABLE dbo.detalleVenta;
 IF OBJECT_ID(N'dbo.venta', N'U') IS NOT NULL DROP TABLE dbo.venta;
