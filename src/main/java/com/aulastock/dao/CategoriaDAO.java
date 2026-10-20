@@ -143,6 +143,31 @@ public class CategoriaDAO {
         return  eliminado;
     }
 
+    public int nuevo(){
+
+        int siguienteId =0;
+
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
+        String consultaIdCategoria = "SELECT ISNULL(MAX(idCategoria), 0) + 1 AS siguienteId FROM dbo.CATEGORIA";
+
+            try {
+                PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaIdCategoria);
+                ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+
+                if(resultadoConsulta.next()){
+                    siguienteId = resultadoConsulta.getInt("siguienteId");
+                }
+                resultadoConsulta.close();
+                consultaPreparada.close();
+                conexionBaseDeDatos.close();
+            } catch (SQLException e) {
+                System.out.println("Error al consultarIdCategoria: "+e.getMessage());
+            }
+
+        return siguienteId;
+
+    }
+
 
 
 }///final clase

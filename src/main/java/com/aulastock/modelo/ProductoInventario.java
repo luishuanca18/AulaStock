@@ -1,8 +1,5 @@
 package com.aulastock.modelo;
 
-/**
- * Datos de un producto vistos desde el modulo de inventario.
- */
 public class ProductoInventario {
 
     private int idProducto;
@@ -76,7 +73,7 @@ public class ProductoInventario {
         return stock <= stockMinimo;
     }
 
-    // Texto que se muestra en el combo de productos
+
     @Override
     public String toString() {
         return codigo + " - " + nombre;

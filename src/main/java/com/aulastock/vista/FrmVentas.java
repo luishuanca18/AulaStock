@@ -5,7 +5,23 @@
 ///cesarrrrrrrrrrrrrrrrrrrrr
 package com.aulastock.vista;
 
+import com.aulastock.dao.ventasDAO;
+import com.aulastock.modelo.Clientes;
+import com.aulastock.modelo.Productos;
+import com.aulastock.modelo.Ventas;
+import com.aulastock.modelo.DetalleVenta;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class FrmVentas extends javax.swing.JFrame {
+
+    private ventasDAO ventaDAO = new ventasDAO();
+    private ArrayList<DetalleVenta> detallesVenta = new ArrayList<>();
 
     public FrmVentas() {
         initComponents();
@@ -30,8 +46,204 @@ public class FrmVentas extends javax.swing.JFrame {
         tblDetalleVenta.getTableHeader().setReorderingAllowed(false);
         setSize(1180, 760);
         setLocationRelativeTo(null);
+        prepararNuevaVenta();
+        cargarClientes();
+        cargarProductos();
     }
 
+    private void cargarClientes() {
+        cboCliente.removeAllItems();
+        ArrayList<Clientes> listaClientes = ventaDAO.cargarClientes();
+
+        for (Clientes cliente : listaClientes) {
+            cboCliente.addItem(cliente);
+        }
+
+    }
+
+    private void cargarProductos() {
+        cboProducto.removeAllItems();
+        ArrayList<Productos> listaProductos = ventaDAO.cargarProductos();
+
+        for (Productos producto : listaProductos) {
+            cboProducto.addItem(producto);
+        }
+
+        mostrarPrecioProducto();
+    }
+
+    private void mostrarPrecioProducto() {
+        Productos producto = (Productos) cboProducto.getSelectedItem();
+
+        if (producto == null) {
+            txtPrecio.setText("");
+        } else {
+            txtPrecio.setText(String.format(Locale.US, "%.2f", producto.getPrecio()));
+        }
+    }
+
+    private void prepararNuevaVenta() {
+        detallesVenta.clear();
+        mostrarDetalleVenta();
+        txtNumeroVenta.setText("AUTOMATICO");
+        txtFecha.setText(LocalDate.now().toString());
+        txtNumeroDocumento.setText("");
+        txtCantidad.setText("");
+        cboTipoDocumento.setSelectedIndex(0);
+    }
+
+    private void mostrarDetalleVenta() {
+        DefaultTableModel tablaDetalle = (DefaultTableModel) tblDetalleVenta.getModel();
+        tablaDetalle.setRowCount(0);
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (DetalleVenta detalle : detallesVenta) {
+            BigDecimal subtotal = BigDecimal.valueOf(detalle.getPrecioUnitario())
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(detalle.getCantidad()));
+            detalle.setSubtotal(subtotal.doubleValue());
+
+            Object[] filaDetalle = new Object[5];
+            filaDetalle[0] = detalle.getCodigo();
+            filaDetalle[1] = detalle.getNombre();
+            filaDetalle[2] = detalle.getCantidad();
+            filaDetalle[3] = String.format(Locale.US, "%.2f", detalle.getPrecioUnitario());
+            filaDetalle[4] = subtotal.toPlainString();
+            tablaDetalle.addRow(filaDetalle);
+
+            total = total.add(subtotal);
+        }
+
+        lblTotal.setText("S/ " + total.setScale(2, RoundingMode.HALF_UP).toPlainString());
+    }
+
+    private void cboProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarPrecioProducto();
+    }
+
+    private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        Productos producto = (Productos) cboProducto.getSelectedItem();
+        if (producto == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+            return;
+        }
+
+        int cantidad;
+        try {
+            cantidad = Integer.parseInt(txtCantidad.getText().trim());
+        } catch (NumberFormatException errorNumero) {
+            JOptionPane.showMessageDialog(this, "Ingrese una cantidad entera valida.");
+            txtCantidad.requestFocus();
+            return;
+        }
+
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
+            return;
+        }
+        if (!Double.isFinite(producto.getPrecio()) || producto.getPrecio() <= 0) {
+            JOptionPane.showMessageDialog(this, "El producto debe tener un precio mayor que cero.");
+            return;
+        }
+
+        DetalleVenta detalleEncontrado = null;
+        int cantidadAgregada = 0;
+        for (DetalleVenta detalle : detallesVenta) {
+            if (detalle.getIdProducto() == producto.getIdProductos()) {
+                detalleEncontrado = detalle;
+                cantidadAgregada = detalle.getCantidad();
+                break;
+            }
+        }
+
+        if (cantidad > producto.getStock() - cantidadAgregada) {
+            JOptionPane.showMessageDialog(this,
+                    "Stock disponible: " + producto.getStock()
+                    + ". Ya agregados a esta venta: " + cantidadAgregada);
+            return;
+        }
+
+        if (detalleEncontrado != null) {
+            detalleEncontrado.setCantidad(cantidadAgregada + cantidad);
+        } else {
+            DetalleVenta detalle = new DetalleVenta();
+            detalle.setIdProducto(producto.getIdProductos());
+            detalle.setCodigo(producto.getCodigo());
+            detalle.setNombre(producto.getNombre());
+            detalle.setCantidad(cantidad);
+            detalle.setPrecioUnitario(producto.getPrecio());
+            detallesVenta.add(detalle);
+        }
+
+        txtNumeroVenta.setText("AUTOMATICO");
+        mostrarDetalleVenta();
+        txtCantidad.setText("");
+        txtCantidad.requestFocus();
+    }
+
+    private void btnQuitarProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        int filaSeleccionada = tblDetalleVenta.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione el producto que desea quitar.");
+            return;
+        }
+
+        int posicionDetalle = tblDetalleVenta.convertRowIndexToModel(filaSeleccionada);
+        detallesVenta.remove(posicionDetalle);
+        mostrarDetalleVenta();
+    }
+
+    private void btnCancelarVentaActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!detallesVenta.isEmpty() || !txtNumeroDocumento.getText().trim().isEmpty()) {
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "¿Desea limpiar la venta que todavia no ha registrado?",
+                    "Cancelar venta", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
+        prepararNuevaVenta();
+        mostrarPrecioProducto();
+        txtNumeroDocumento.requestFocus();
+    }
+
+    private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {
+        Clientes cliente = (Clientes) cboCliente.getSelectedItem();
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente.");
+            return;
+        }
+        if (detallesVenta.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Agregue al menos un producto.");
+            return;
+        }
+
+        String numeroDocumento = txtNumeroDocumento.getText().trim();
+        if (numeroDocumento.isEmpty() || numeroDocumento.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Ingrese un numero de documento de hasta 30 caracteres.");
+            txtNumeroDocumento.requestFocus();
+            return;
+        }
+
+        Ventas venta = new Ventas();
+        venta.setFecha(txtFecha.getText().trim());
+        venta.setIdCliente(cliente.getIdCliente());
+        venta.setTipoDocumento(cboTipoDocumento.getSelectedItem().toString());
+        venta.setNumeroDocumento(numeroDocumento);
+
+        boolean registroExitoso = ventaDAO.registrar(venta, detallesVenta);
+        if (registroExitoso) {
+            JOptionPane.showMessageDialog(this,
+                    "Venta registrada correctamente. Numero de venta: " + venta.getIdVenta());
+            prepararNuevaVenta();
+            txtNumeroVenta.setText(String.valueOf(venta.getIdVenta()));
+            cargarProductos();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se guardo la venta. Revise el detalle del error en la consola.");
+        }
+    }
 
 
 
@@ -86,6 +298,7 @@ public class FrmVentas extends javax.swing.JFrame {
         getContentPane().add(lblFecha);
         lblFecha.setBounds(310, 90, 70, 25);
         getContentPane().add(txtFecha);
+        txtFecha.setEditable(false);
         txtFecha.setBounds(380, 90, 150, 34);
 
         lblCliente.setText("Cliente");
@@ -115,6 +328,7 @@ public class FrmVentas extends javax.swing.JFrame {
         getContentPane().add(lblProducto);
         lblProducto.setBounds(30, 195, 80, 25);
         getContentPane().add(cboProducto);
+        cboProducto.addActionListener(this::cboProductoActionPerformed);
         cboProducto.setBounds(110, 195, 360, 34);
 
         lblCantidad.setText("Cantidad");
@@ -132,10 +346,12 @@ public class FrmVentas extends javax.swing.JFrame {
         txtPrecio.setBounds(780, 195, 120, 34);
 
         btnAgregarProducto.setText("Agregar");
+        btnAgregarProducto.addActionListener(this::btnAgregarProductoActionPerformed);
         getContentPane().add(btnAgregarProducto);
         btnAgregarProducto.setBounds(925, 192, 116, 38);
 
         btnQuitarProducto.setText("Quitar");
+        btnQuitarProducto.addActionListener(this::btnQuitarProductoActionPerformed);
         getContentPane().add(btnQuitarProducto);
         btnQuitarProducto.setBounds(1048, 192, 92, 38);
 
@@ -167,10 +383,12 @@ public class FrmVentas extends javax.swing.JFrame {
         lblTotal.setBounds(900, 590, 200, 35);
 
         btnRegistrarVenta.setText("Registrar venta");
+        btnRegistrarVenta.addActionListener(this::btnRegistrarVentaActionPerformed);
         getContentPane().add(btnRegistrarVenta);
         btnRegistrarVenta.setBounds(735, 645, 190, 42);
 
         btnCancelarVenta.setText("Cancelar");
+        btnCancelarVenta.addActionListener(this::btnCancelarVentaActionPerformed);
         getContentPane().add(btnCancelarVenta);
         btnCancelarVenta.setBounds(945, 645, 155, 42);
 

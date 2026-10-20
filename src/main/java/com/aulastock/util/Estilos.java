@@ -21,7 +21,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
-/**
+/** jhoana
  * Estilo visual compartido de AulaStock.
  * Cada ventana llama a estos metodos en su constructor, despues de initComponents().
  * Para cambiar un color o una fuente en todo el sistema, se cambia solo aqui.
