@@ -221,7 +221,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     }
 
-    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {
+
+
 
     }
 
