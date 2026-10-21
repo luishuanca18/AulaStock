@@ -12,7 +12,7 @@ public class ClientesDAO {
         ArrayList<Clientes> clientesBaseDeDatos = new ArrayList<>();
         String consultaSQL = "SELECT idCliente, dni, nombres, apellidos, "
                 + "telefono, correo, direccion, estado "
-                + "FROM dbo.cliente ORDER BY idCliente ASC";
+                + "FROM dbo.cliente where estado=1 ORDER BY idCliente ASC";
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
         try {
             PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaSQL);
@@ -112,7 +112,7 @@ public class ClientesDAO {
     // ELIMINAR
     public boolean eliminar(Clientes cliente) {
         boolean eliminado = false;
-        String consultaSQL = "DELETE FROM dbo.cliente WHERE idCliente = ?";
+        String consultaSQL = "UPDATE dbo.cliente SET estado = 0 WHERE idCliente = ?";
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
         try {
             PreparedStatement eliminarRegistro = conexionBaseDeDatos.prepareStatement(consultaSQL);

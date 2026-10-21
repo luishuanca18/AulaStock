@@ -1,5 +1,5 @@
 package com.aulastock.modelo;
-//LUIS GAAAAAAA
+
 public class Clientes {
 
     private int idCliente;
