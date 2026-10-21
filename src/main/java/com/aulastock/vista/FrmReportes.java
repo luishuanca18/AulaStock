@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.time.format.DateTimeFormatter;
 
 public class FrmReportes extends javax.swing.JFrame {
     public FrmReportes() {
@@ -71,9 +72,9 @@ public class FrmReportes extends javax.swing.JFrame {
             return;
         }
 
-        LocalDate fechaDesde = LocalDate.parse(desde);
-        LocalDate fechaHasta = LocalDate.parse(hasta);
-
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+        LocalDate fechaDesde = LocalDate.parse(desde, formato);
+        LocalDate fechaHasta = LocalDate.parse(hasta, formato);
         if (fechaDesde.isAfter(fechaHasta)) {
             JOptionPane.showMessageDialog(
                 this,
@@ -168,7 +169,7 @@ public class FrmReportes extends javax.swing.JFrame {
     } catch (java.time.format.DateTimeParseException ex) {
         JOptionPane.showMessageDialog(
             this,
-            "Formato de fecha inválido. Usa AAAA-MM-DD."
+                "Formato de fecha inválido. Usa DD-MM-AAAA, por ejemplo 01-09-2026."
         );
 
     } catch (SQLException ex) {
