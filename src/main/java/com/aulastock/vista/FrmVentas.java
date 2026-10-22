@@ -13,6 +13,7 @@ import com.aulastock.modelo.DetalleVenta;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -55,15 +56,16 @@ public class FrmVentas extends javax.swing.JFrame {
         cboCliente.removeAllItems();
         ArrayList<Clientes> listaClientes = ventaDAO.cargarClientes();
 
-        for (Clientes cliente : listaClientes) {
-            cboCliente.addItem(cliente);
+        for (Clientes cargarCliente : listaClientes) {
+            cboCliente.addItem(cargarCliente);
         }
 
     }
 
     private void cargarProductos() {
         cboProducto.removeAllItems();
-        ArrayList<Productos> listaProductos = ventaDAO.cargarProductos();
+        ArrayList<Productos> listaProductos;
+        listaProductos= ventaDAO.cargarProductos();
 
         for (Productos producto : listaProductos) {
             cboProducto.addItem(producto);
@@ -86,7 +88,8 @@ public class FrmVentas extends javax.swing.JFrame {
         detallesVenta.clear();
         mostrarDetalleVenta();
         txtNumeroVenta.setText("AUTOMATICO");
-        txtFecha.setText(LocalDate.now().toString());
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+         txtFecha.setText(LocalDate.now().format(formato));
         txtNumeroDocumento.setText("");
         txtCantidad.setText("");
         cboTipoDocumento.setSelectedIndex(0);

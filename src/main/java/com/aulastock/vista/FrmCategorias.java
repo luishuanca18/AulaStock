@@ -86,8 +86,6 @@ public class FrmCategorias extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
-        lblBuscar = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
         spCategorias = new javax.swing.JScrollPane();
         tblCategorias = new javax.swing.JTable();
 
@@ -113,9 +111,9 @@ public class FrmCategorias extends javax.swing.JFrame {
         lblIdCategoria.setBounds(30, 90, 100, 25);
 
         txtIdCategoria.setEditable(false);
+        txtIdCategoria.setBackground(new java.awt.Color(231, 237, 245));
         txtIdCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIdCategoria.setForeground(new java.awt.Color(39, 56, 77));
-        txtIdCategoria.setBackground(new java.awt.Color(231, 237, 245));
         txtIdCategoria.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
         getContentPane().add(txtIdCategoria);
         txtIdCategoria.setBounds(140, 94, 150, 34);
@@ -142,10 +140,10 @@ public class FrmCategorias extends javax.swing.JFrame {
         spDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtDescripcion.setColumns(20);
-        txtDescripcion.setRows(5);
         txtDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDescripcion.setForeground(new java.awt.Color(39, 56, 77));
         txtDescripcion.setLineWrap(true);
+        txtDescripcion.setRows(5);
         txtDescripcion.setWrapStyleWord(true);
         txtDescripcion.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 9, 6, 9));
         spDescripcion.setViewportView(txtDescripcion);
@@ -160,79 +158,65 @@ public class FrmCategorias extends javax.swing.JFrame {
         getContentPane().add(chkActivo);
         chkActivo.setBounds(740, 145, 105, 30);
 
-        btnNuevo.setText("Nuevo");
-        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnNuevo.setBackground(new java.awt.Color(226, 238, 252));
+        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnNuevo.setForeground(new java.awt.Color(26, 48, 76));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/interfaz/nuevo.png"))); // NOI18N
-        btnNuevo.setIconTextGap(8);
-        btnNuevo.setFocusPainted(false);
-        btnNuevo.setOpaque(true);
+        btnNuevo.setText("Nuevo");
         btnNuevo.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnNuevo.setFocusPainted(false);
+        btnNuevo.setIconTextGap(8);
         btnNuevo.addActionListener(this::btnNuevoActionPerformed);
         getContentPane().add(btnNuevo);
-        btnNuevo.setBounds(90, 250, 132, 40);
+        btnNuevo.setBounds(90, 270, 132, 40);
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnGuardar.setBackground(new java.awt.Color(20, 126, 103));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/guardar.png"))); // NOI18N
-        btnGuardar.setIconTextGap(8);
-        btnGuardar.setFocusPainted(false);
+        btnGuardar.setText("Guardar");
         btnGuardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setIconTextGap(8);
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
         getContentPane().add(btnGuardar);
-        btnGuardar.setBounds(232, 250, 132, 40);
+        btnGuardar.setBounds(230, 270, 132, 40);
 
-        btnActualizar.setText("Actualizar");
-        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnActualizar.setBackground(new java.awt.Color(226, 238, 252));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(26, 48, 76));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/actualizar.png"))); // NOI18N
-        btnActualizar.setIconTextGap(8);
-        btnActualizar.setFocusPainted(false);
+        btnActualizar.setText("Actualizar");
         btnActualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnActualizar.setFocusPainted(false);
+        btnActualizar.setIconTextGap(8);
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
         getContentPane().add(btnActualizar);
-        btnActualizar.setBounds(374, 250, 132, 40);
+        btnActualizar.setBounds(370, 270, 132, 40);
 
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnEliminar.setBackground(new java.awt.Color(253, 232, 235));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(143, 32, 47));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/eliminar.png"))); // NOI18N
-        btnEliminar.setIconTextGap(8);
-        btnEliminar.setFocusPainted(false);
+        btnEliminar.setText("Eliminar");
         btnEliminar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setIconTextGap(8);
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         getContentPane().add(btnEliminar);
-        btnEliminar.setBounds(516, 250, 132, 40);
+        btnEliminar.setBounds(520, 270, 132, 40);
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLimpiar.setBackground(new java.awt.Color(225, 232, 240));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(39, 56, 77));
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/categorias/limpiar.png"))); // NOI18N
-        btnLimpiar.setIconTextGap(8);
-        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 10, 7, 10));
+        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setIconTextGap(8);
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         getContentPane().add(btnLimpiar);
-        btnLimpiar.setBounds(658, 250, 132, 40);
-
-        lblBuscar.setText("Buscar");
-        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblBuscar.setForeground(new java.awt.Color(99, 115, 134));
-        getContentPane().add(lblBuscar);
-        lblBuscar.setBounds(30, 300, 80, 25);
-
-        txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtBuscar.setForeground(new java.awt.Color(39, 56, 77));
-        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
-        txtBuscar.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(5, 9, 5, 9)));
-        getContentPane().add(txtBuscar);
-        txtBuscar.setBounds(110, 310, 610, 34);
+        btnLimpiar.setBounds(660, 270, 132, 40);
 
         spCategorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -446,7 +430,6 @@ public class FrmCategorias extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkActivo;
-    private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblIdCategoria;
     private javax.swing.JLabel lblNombre;
@@ -454,7 +437,6 @@ public class FrmCategorias extends javax.swing.JFrame {
     private javax.swing.JScrollPane spCategorias;
     private javax.swing.JScrollPane spDescripcion;
     private javax.swing.JTable tblCategorias;
-    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtIdCategoria;
     private javax.swing.JTextField txtNombre;

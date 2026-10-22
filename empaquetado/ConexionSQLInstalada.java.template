@@ -1,0 +1,28 @@
+package com.aulastock.util;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
+
+/** Configuracion de la copia instalada; no modifica la conexion del proyecto de clase. */
+public class ConexionSQL {
+    public static Connection conectar() {
+        Path archivo = Path.of(System.getenv("LOCALAPPDATA"), "AulaStock", "database.properties");
+        try (InputStream entrada = Files.newInputStream(archivo)) {
+            Properties datos = new Properties();
+            datos.load(entrada);
+            return DriverManager.getConnection(datos.getProperty("url"),
+                    datos.getProperty("usuario"), datos.getProperty("clave"));
+        } catch (Exception error) {
+            System.out.println("Error al conectar: " + error.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(null,
+                    "No se pudo conectar con SQL Server. Revise que el servicio este iniciado.\n"
+                    + "Configuracion: " + archivo,
+                    "Conexion de AulaStock", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+}

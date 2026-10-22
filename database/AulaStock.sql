@@ -1,4 +1,11 @@
-
+/*
+    AulaStock - Estructura y datos de demostracion.
+    Incluye 8 categorias, 10 clientes, 20 productos, 10 ventas,
+    20 detalles de venta y 20 movimientos de salida.
+    ATENCION: este script elimina y vuelve a crear las tablas existentes.
+    Usarlo para preparar una base de pruebas nueva, no para actualizar datos.
+    Despues ejecutar procedimientos_completos.sql.
+*/
 USE master;
 GO
 
@@ -64,6 +71,8 @@ CREATE TABLE dbo.venta (
     fecha DATETIME NOT NULL CONSTRAINT DF_venta_fecha DEFAULT GETDATE(),
     idCliente INT NOT NULL,
     total DECIMAL(10,2) NOT NULL CONSTRAINT DF_venta_total DEFAULT 0,
+    tipoDocumento VARCHAR(20) NULL,
+    numeroDocumento VARCHAR(30) NULL,
     CONSTRAINT PK_venta PRIMARY KEY (idVenta),
     CONSTRAINT FK_venta_cliente FOREIGN KEY (idCliente)
         REFERENCES dbo.cliente(idCliente)
@@ -155,41 +164,93 @@ VALUES
 SET IDENTITY_INSERT dbo.producto OFF;
 GO
 
+/* Diez ventas con documentos y totales calculados a partir de sus detalles. */
 SET IDENTITY_INSERT dbo.venta ON;
-INSERT INTO dbo.venta (idVenta, fecha, idCliente, total)
-VALUES (1, '2026-09-18T00:00:00', 1, 10.00);
+INSERT INTO dbo.venta
+    (idVenta, fecha, idCliente, total, tipoDocumento, numeroDocumento)
+VALUES
+    (1, '2026-10-17T10:00:00', 1, 29.50, 'Boleta', 'DEMO-B001-000001'),
+    (2, '2026-10-18T11:30:00', 2, 30.90, 'Factura', 'DEMO-F001-000001'),
+    (3, '2026-10-11T09:00:00', 3, 15.00, 'Boleta', 'DEMO-B001-000002'),
+    (4, '2026-10-12T10:15:00', 4, 20.60, 'Factura', 'DEMO-F001-000002'),
+    (5, '2026-10-13T11:30:00', 5, 11.00, 'Boleta', 'DEMO-B001-000003'),
+    (6, '2026-10-14T14:00:00', 6, 8.10, 'Factura', 'DEMO-F001-000003'),
+    (7, '2026-10-15T15:45:00', 7, 21.40, 'Boleta', 'DEMO-B001-000004'),
+    (8, '2026-10-16T16:20:00', 8, 20.60, 'Factura', 'DEMO-F001-000004'),
+    (9, '2026-10-17T12:00:00', 9, 43.40, 'Boleta', 'DEMO-B001-000005'),
+    (10, '2026-10-18T13:30:00', 10, 50.80, 'Factura', 'DEMO-F001-000005');
 SET IDENTITY_INSERT dbo.venta OFF;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.usp_registrar_categoria
-    @nombre VARCHAR(50),
-    @descripcion VARCHAR(100),
-    @estado BIT
-AS
-BEGIN
-    SET NOCOUNT OFF;
-
-    INSERT INTO dbo.CATEGORIA (nombre, descripcion, estado)
-    VALUES (@nombre, @descripcion, @estado);
-END;
+/* Cada venta tiene dos productos. */
+INSERT INTO dbo.detalleVenta
+    (idVenta, idProducto, cantidad, precioUnitario, subtotal)
+VALUES
+    (1, 1, 2, 12.50, 25.00),
+    (1, 4, 3, 1.50, 4.50),
+    (2, 8, 1, 24.90, 24.90),
+    (2, 4, 4, 1.50, 6.00),
+    (3, 2, 1, 12.00, 12.00),
+    (3, 5, 2, 1.50, 3.00),
+    (4, 3, 2, 8.50, 17.00),
+    (4, 6, 3, 1.20, 3.60),
+    (5, 7, 2, 3.50, 7.00),
+    (5, 9, 4, 1.00, 4.00),
+    (6, 10, 1, 4.50, 4.50),
+    (6, 11, 3, 1.20, 3.60),
+    (7, 12, 1, 11.90, 11.90),
+    (7, 13, 1, 9.50, 9.50),
+    (8, 14, 2, 7.90, 15.80),
+    (8, 15, 1, 4.80, 4.80),
+    (9, 16, 1, 13.50, 13.50),
+    (9, 17, 1, 29.90, 29.90),
+    (10, 18, 1, 25.00, 25.00),
+    (10, 20, 2, 12.90, 25.80);
 GO
 
-CREATE OR ALTER PROCEDURE dbo.usp_actualizar_categoria
-    @idCategoria INT,
-    @nombre VARCHAR(50),
-    @descripcion VARCHAR(100),
-    @estado BIT
-AS
-BEGIN
-    SET NOCOUNT OFF;
-
-    UPDATE dbo.CATEGORIA
-    SET nombre = @nombre,
-        descripcion = @descripcion,
-        estado = @estado
-    WHERE idCategoria = @idCategoria;
-END;
+/* Una salida de inventario por cada detalle de venta. */
+INSERT INTO dbo.movimientoInventario (idProducto, tipo, cantidad, motivo, fecha)
+SELECT d.idProducto, 'SALIDA', d.cantidad,
+       'Venta de prueba ' + v.numeroDocumento, v.fecha
+FROM dbo.detalleVenta d
+INNER JOIN dbo.venta v ON d.idVenta = v.idVenta;
 GO
 
-PRINT 'Base de datos AulaStock creada correctamente.';
+/* Descuenta de las existencias iniciales las unidades vendidas en los ejemplos. */
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 1;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 2;
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 3;
+UPDATE dbo.producto SET stock = stock - 7 WHERE idProducto = 4;
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 5;
+UPDATE dbo.producto SET stock = stock - 3 WHERE idProducto = 6;
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 7;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 8;
+UPDATE dbo.producto SET stock = stock - 4 WHERE idProducto = 9;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 10;
+UPDATE dbo.producto SET stock = stock - 3 WHERE idProducto = 11;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 12;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 13;
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 14;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 15;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 16;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 17;
+UPDATE dbo.producto SET stock = stock - 1 WHERE idProducto = 18;
+UPDATE dbo.producto SET stock = stock - 2 WHERE idProducto = 20;
+GO
+
+/* Comprueba que hay datos de ejemplo en todas las tablas. */
+SELECT 'CATEGORIA' AS tabla, COUNT(*) AS registros FROM dbo.CATEGORIA
+UNION ALL
+SELECT 'cliente', COUNT(*) FROM dbo.cliente
+UNION ALL
+SELECT 'producto', COUNT(*) FROM dbo.producto
+UNION ALL
+SELECT 'venta', COUNT(*) FROM dbo.venta
+UNION ALL
+SELECT 'detalleVenta', COUNT(*) FROM dbo.detalleVenta
+UNION ALL
+SELECT 'movimientoInventario', COUNT(*) FROM dbo.movimientoInventario;
+GO
+
+PRINT 'Tablas y datos de ejemplo creados. Ejecute procedimientos_completos.sql.';
 GO

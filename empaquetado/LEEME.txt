@@ -1,0 +1,45 @@
+AULASTOCK - DISTRIBUCION PARA WINDOWS DE 64 BITS
+
+Instale con AulaStock-1.0.1.exe y abra el acceso directo AulaStock.
+Java ya esta incluido. No necesita NetBeans, IntelliJ ni instalar Java.
+
+PREPARACION INICIAL
+SQL Server debe estar instalado en el equipo. El asistente permite elegir
+la instancia local y usa autenticacion de Windows para preparar la base.
+La cuenta de Windows debe tener permisos sysadmin en esa instancia.
+Windows solicitara permisos de administrador para la preparacion.
+
+El asistente ofrece dos opciones:
+- Usar la base AulaStock existente: comprueba tablas, columnas y parametros
+  de los procedimientos, conserva los registros y no carga ejemplos ni
+  descuenta stock. Si faltan procedimientos o sus parametros no coinciden,
+  pide confirmacion antes de actualizar las 11 definiciones incluidas.
+- Crear una base nueva: crea AulaStock con sus ejemplos y procedimientos.
+  Si ya existe una base con ese nombre, se detiene sin reemplazarla.
+Si a la base existente le faltan tablas o columnas, se detiene e informa
+que elementos faltan. No altera automaticamente su estructura.
+No vuelva a ejecutar AulaStock.sql sobre una base con datos que quiera guardar.
+
+Si TCP o la autenticacion mixta no estan habilitados, el asistente pide
+confirmacion antes de configurarlos y reiniciar la instancia seleccionada.
+El reinicio interrumpe temporalmente las conexiones de esa instancia.
+El asistente no agrega reglas al firewall. AulaStock se conecta a localhost.
+
+Se crea un usuario SQL exclusivo de esta copia, con clave aleatoria y permisos
+de lectura, escritura y ejecucion en AulaStock. No se reinician las claves de
+los usuarios SQL existentes. No es necesario ejecutar crear usuario.sql.
+
+El archivo de conexion se guarda por usuario de Windows en:
+%LOCALAPPDATA%\AulaStock\database.properties
+No comparta ese archivo porque contiene la clave de la conexion.
+
+La configuracion del asistente debe realizarse con la cuenta de Windows que
+utilizara el sistema. Si UAC pide otra cuenta, utilice una cuenta autorizada
+por el propietario del equipo para la preparacion y revise el acceso al archivo.
+
+VERSION PORTABLE
+La carpeta AulaStock tambien contiene AulaStock.exe y el runtime de Java.
+Debe copiarse la carpeta completa; el ejecutable solo no es suficiente.
+
+Esta entrega es un proyecto academico. Antes de exponer, pruebe en el equipo
+destino los formularios, el registro de una venta y las consultas de reportes.
