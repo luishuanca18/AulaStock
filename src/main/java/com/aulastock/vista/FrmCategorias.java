@@ -54,6 +54,11 @@ public class FrmCategorias extends javax.swing.JFrame {
         }
     }
     
+    private void mostrarMensaje(String titulo, String texto, String tipo) {
+        FrmMensaje mensaje = new FrmMensaje(this, titulo, texto, tipo);
+        mensaje.setVisible(true);
+    }
+
     private void limpiar(){
 
 
@@ -293,7 +298,7 @@ public class FrmCategorias extends javax.swing.JFrame {
 
         if (id.isEmpty() || txtIdCategoria.getText().equals("AUTOMATICO")) {
 
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una categoria");
+            mostrarMensaje("Selecciona una categoria", "Selecciona una categoria de la tabla para eliminarla.", "aviso");
             return;
 
         }
@@ -305,7 +310,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         boolean eliminacionExitosa = categoriaDAO.eliminar(categoria);
 
         if (eliminacionExitosa) {
-            JOptionPane.showMessageDialog(this, "Categoria eliminada con exito");
+            mostrarMensaje("Categoria eliminada", "La categoria se elimino correctamente.", "exito");
             cargarDatosBDaTblCategorias();
 
             txtIdCategoria.setText("");
@@ -313,7 +318,7 @@ public class FrmCategorias extends javax.swing.JFrame {
             txtDescripcion.setText("");
         }
         else {
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar la Categoria");
+            mostrarMensaje("No se pudo eliminar", "No se pudo eliminar la categoria. Revisa el detalle del error en la consola.", "error");
         }
 
         
@@ -351,7 +356,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         int filaSeleccionada = tblCategorias.getSelectedRow();
 
         if (filaSeleccionada == -1){
-            JOptionPane.showMessageDialog(this, "Seleccione una categoria");
+            mostrarMensaje("Selecciona una categoria", "Selecciona una categoria de la tabla para actualizarla.", "aviso");
             return;
         }
         int idCategoria = Integer.parseInt(tblCategorias.getValueAt(filaSeleccionada, 0).toString());
@@ -363,10 +368,10 @@ public class FrmCategorias extends javax.swing.JFrame {
         boolean actualizacionExitosa = categoriaDAO.actualizarCategoria(categoria);
 
         if (actualizacionExitosa) {
-            JOptionPane.showMessageDialog(this, "Categoria actualizada");
+            mostrarMensaje("Categoria actualizada", "Los cambios de la categoria se guardaron correctamente.", "exito");
             cargarDatosBDaTblCategorias();
         }else {
-            JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+            mostrarMensaje("No se pudo actualizar", "No se pudieron guardar los cambios. Revisa el detalle del error en la consola.", "error");
         }
     }
 
@@ -376,7 +381,7 @@ public class FrmCategorias extends javax.swing.JFrame {
         Categoria categoria = new Categoria();
 
         if(txtNombre.getText().trim().isEmpty() || txtDescripcion.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "HAY ESPACIOS VACIOS, INGRESE TODA LA INFORMACION");
+            mostrarMensaje("Completa los datos", "Ingresa el nombre y la descripcion de la categoria para continuar.", "aviso");
             return;
         }
             categoria.setNombre(txtNombre.getText().trim());
@@ -385,13 +390,13 @@ public class FrmCategorias extends javax.swing.JFrame {
 
             boolean registroExitoso =  categoriaDAO.registrar(categoria);
                 if (registroExitoso) {
-                    JOptionPane.showMessageDialog(this, "Registro Exitoso");
+                    mostrarMensaje("Categoria registrada", "La nueva categoria se guardo correctamente.", "exito");
                     txtIdCategoria.setText("");
                     txtNombre.setText("");
                     txtDescripcion.setText("");
                     txtNombre.requestFocus();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Registro Fallido");
+                    mostrarMensaje("No se pudo registrar", "No se pudo guardar la categoria. Revisa el detalle del error en la consola.", "error");
                 }
 
     }

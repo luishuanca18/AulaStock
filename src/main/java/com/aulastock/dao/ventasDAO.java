@@ -6,13 +6,8 @@ import com.aulastock.modelo.DetalleVenta;
 import com.aulastock.modelo.Ventas;
 import com.aulastock.util.ConexionSQL;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.CallableStatement;
-import java.sql.Types;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ventasDAO {
@@ -99,27 +94,34 @@ public class ventasDAO {
         total = Math.round(total * 100.0) / 100.0;
 
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
-        if (conexionBaseDeDatos == null) {
-            return registroExitoso;
-        }
-        String usp_registrar_venta = "{call dbo.usp_registrar_venta(?,?,?,?,?,?)}";
-        String usp_registrar_detalle_venta = "{call dbo.usp_registrar_detalle_venta(?,?,?,?)}";
+
+
+        String usp_registrar_venta = "{call dbo.usp_registrar_venta(?,?,?,?,?)}";
 
         try {
-            // No confirma cada INSERT por separado. Al final se confirma toda la venta.
+
             conexionBaseDeDatos.setAutoCommit(false);
 
             CallableStatement prepararRegistro = conexionBaseDeDatos.prepareCall(usp_registrar_venta);
-            prepararRegistro.setTimestamp(1, Timestamp.valueOf(ventaNueva.getFecha() + " 00:00:00"));
+            prepararRegistro.setDate(1, Date.valueOf(ventaNueva.getFecha()));
             prepararRegistro.setInt(2, ventaNueva.getIdCliente());
             prepararRegistro.setDouble(3, total);
             prepararRegistro.setString(4, ventaNueva.getTipoDocumento());
             prepararRegistro.setString(5, ventaNueva.getNumeroDocumento());
-            // SQL devuelve aqui el ID real que genero IDENTITY.
-            prepararRegistro.registerOutParameter(6, Types.INTEGER);
-            prepararRegistro.executeUpdate();
-            int idVenta = prepararRegistro.getInt(6);
+
+            ResultSet resultadoRegistro = prepararRegistro.executeQuery();
+            int idVenta = 0;
+            if (resultadoRegistro.next()) {
+                idVenta = resultadoRegistro.getInt("idVenta");
+            }
+            resultadoRegistro.close();
             prepararRegistro.close();
+
+            if (idVenta <= 0) {
+                throw new SQLException("No se recibio el ID de la venta registrada.");
+            }
+
+            String usp_registrar_detalle_venta = "{call dbo.usp_registrar_detalle_venta(?,?,?,?)}";
 
             for (DetalleVenta detalle : detallesVenta) {
                 CallableStatement prepararDetalle = conexionBaseDeDatos.prepareCall(usp_registrar_detalle_venta);
@@ -133,12 +135,11 @@ public class ventasDAO {
 
             conexionBaseDeDatos.commit();
             ventaNueva.setIdVenta(idVenta);
-            ventaNueva.setTotal(total);
             registroExitoso = true;
             conexionBaseDeDatos.close();
 
         } catch (SQLException | IllegalArgumentException errorRegistro) {
-            // Si falla una parte, deshace tambien los registros anteriores de esta venta.
+
             if (conexionBaseDeDatos != null) {
                 try {
                     conexionBaseDeDatos.rollback();

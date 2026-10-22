@@ -218,33 +218,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {                                          
-
+        lblTituloModulo.setText("INICIO");
+        lblBienvenida.setText("Bienvenido a AulaStock");
+        lblDescripcion.setText("Sistema de ventas e inventarios");
     }
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {
-
-
-
+        FrmProductos formularioProductos = new FrmProductos();
+        formularioProductos.setVisible(true);
     }
 
     private void btnCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriasActionPerformed
-
+        FrmCategorias formularioCategorias = new FrmCategorias();
+        formularioCategorias.setVisible(true);
     }
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-       
+        FrmClientes formularioClientes = new FrmClientes();
+        formularioClientes.setVisible(true);
     }
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        
+        FrmVentas formularioVentas = new FrmVentas();
+        formularioVentas.setVisible(true);
     }
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        
+        FrmInventario formularioInventario = new FrmInventario();
+        formularioInventario.setVisible(true);
     }
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        
+        FrmReportes formularioReportes = new FrmReportes();
+        formularioReportes.setVisible(true);
     }
 
     public static void main(String args[]) {
