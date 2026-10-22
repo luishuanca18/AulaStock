@@ -16,6 +16,9 @@ public class FrmClientes extends javax.swing.JFrame {
         listarClientes();
         setSize(1100, 720);
         setLocationRelativeTo(null);
+        txtCodigo.setVisible(false);
+        lblCodigo.setVisible(false);
+
     }
 
     private void listarClientes() {
@@ -129,6 +132,7 @@ public class FrmClientes extends javax.swing.JFrame {
         txtCodigo.setEditable(false);
         txtCodigo.setBackground(new java.awt.Color(204, 204, 204));
         txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
 
         lblDni.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblDni.setText("DNI");
@@ -223,7 +227,7 @@ public class FrmClientes extends javax.swing.JFrame {
         btnBuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
-        spClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LISTADO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 51, 102))); // NOI18N
+        spClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "LISTADO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 51, 102))); // NOI18N
 
         tblClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -380,6 +384,9 @@ public class FrmClientes extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
         listarClientes();
+        chkActivo.setSelected(true);
+        chkActivo.setVisible(false);
+        jLabel1.setVisible(false);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
@@ -491,6 +498,10 @@ public class FrmClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo eliminar el cliente");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
         public static void main(String args[]) {
             java.awt.EventQueue.invokeLater(() -> new FrmClientes().setVisible(true));

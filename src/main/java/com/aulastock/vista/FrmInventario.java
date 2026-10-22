@@ -282,6 +282,7 @@ public class FrmInventario extends javax.swing.JFrame {
         txtCantidad.setText("");
         txtDetalle.setText("");
         tblInventario.clearSelection();
+        txtBuscar.setText("");
     }
 
     @SuppressWarnings("unchecked")
