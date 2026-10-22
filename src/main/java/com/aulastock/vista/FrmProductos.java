@@ -45,13 +45,14 @@ public class FrmProductos extends javax.swing.JFrame {
         cargarProductos();
 
     }
+
     private void cargarProductos() {
 
         DefaultTableModel tablaProductos = (DefaultTableModel) tblProductos.getModel();
         tablaProductos.setRowCount(0);
 
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
-        String consultaProductos ="SELECT P.idProducto,P.codigo,P.nombre,C.nombre AS nombreCategoria,P.precio,P.stock,P.stockMinimo " +
+        String consultaProductos = "SELECT P.idProducto,P.codigo,P.nombre,C.nombre AS nombreCategoria,P.precio,P.stock,P.stockMinimo " +
                 "FROM producto P INNER JOIN CATEGORIA C ON P.idCategoria = C.idCategoria ORDER BY  P.codigo ";
 
         try {
@@ -60,13 +61,13 @@ public class FrmProductos extends javax.swing.JFrame {
 
             while (resultadoConsulta.next()) {
 
-                Object[]  productos = new  Object[6];
-                productos[0]=resultadoConsulta.getString("codigo");
-                productos[1]= resultadoConsulta.getString("nombre");
-                productos[2]= resultadoConsulta.getString("nombreCategoria");
-                productos[3]=resultadoConsulta.getDouble("precio");
-                productos[4] =resultadoConsulta.getInt("stock");
-                productos[5]=resultadoConsulta.getInt("stockMinimo");
+                Object[] productos = new Object[6];
+                productos[0] = resultadoConsulta.getString("codigo");
+                productos[1] = resultadoConsulta.getString("nombre");
+                productos[2] = resultadoConsulta.getString("nombreCategoria");
+                productos[3] = resultadoConsulta.getDouble("precio");
+                productos[4] = resultadoConsulta.getInt("stock");
+                productos[5] = resultadoConsulta.getInt("stockMinimo");
                 tablaProductos.addRow(productos);
             }
             resultadoConsulta.close();
@@ -78,7 +79,7 @@ public class FrmProductos extends javax.swing.JFrame {
         }
     }
 
-    private void cargarCategorias(){
+    private void cargarCategorias() {
 
         cboCategoria.removeAllItems();
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
@@ -100,7 +101,7 @@ public class FrmProductos extends javax.swing.JFrame {
             conexionBaseDeDatos.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener la categoria"+e.getMessage());
+            System.out.println("Error al obtener la categoria" + e.getMessage());
         }
     }
 
@@ -212,23 +213,24 @@ public class FrmProductos extends javax.swing.JFrame {
         txtBuscar.setBounds(110, 295, 520, 36);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
         getContentPane().add(btnBuscar);
         btnBuscar.setBounds(650, 295, 140, 36);
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "Codigo", "Nombre", "Categoria", "Precio", "Stock", "Stock minimo"
-            }
+                },
+                new String[]{
+                        "Codigo", "Nombre", "Categoria", "Precio", "Stock", "Stock minimo"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -370,29 +372,31 @@ public class FrmProductos extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {
 
 
-        Connection conexionBaseDeDatos =  ConexionSQL.conectar();
+        Connection conexionBaseDeDatos = ConexionSQL.conectar();
         String usp_actualizar_productos = "{call usp_actualizar_productos(?,?,?,?,?,?,?)}";
 
         Categoria comboBoxCategoria = (Categoria) cboCategoria.getSelectedItem();
 
         try {
-         CallableStatement actualizarPreparada = conexionBaseDeDatos.prepareCall(usp_actualizar_productos);
-         actualizarPreparada.setString(1, txtCodigo.getText());
-         actualizarPreparada.setString(2, txtNombre.getText().trim());
-         actualizarPreparada.setInt(3, comboBoxCategoria.getIdCategoria());
-         actualizarPreparada.setDouble(4, Double.parseDouble(txtPrecio.getText().trim()));
-         actualizarPreparada.setInt(5, Integer.parseInt(txtStock.getText().trim()));
-         actualizarPreparada.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
-         actualizarPreparada.setBoolean(7,chkActivo.isSelected());
+            CallableStatement actualizarPreparada = conexionBaseDeDatos.prepareCall(usp_actualizar_productos);
+            actualizarPreparada.setString(1, txtCodigo.getText());
+            actualizarPreparada.setString(2, txtNombre.getText().trim());
+            actualizarPreparada.setInt(3, comboBoxCategoria.getIdCategoria());
+            actualizarPreparada.setDouble(4, Double.parseDouble(txtPrecio.getText().trim()));
+            actualizarPreparada.setInt(5, Integer.parseInt(txtStock.getText().trim()));
+            actualizarPreparada.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
+            actualizarPreparada.setBoolean(7, chkActivo.isSelected());
 
-         int filasActualizadas = actualizarPreparada.executeUpdate();
-         if (filasActualizadas > 0) {
-             cargarProductos();
-             JOptionPane.showMessageDialog(this,"Se ha actualizado el producto con exito");}
-         else  {JOptionPane.showMessageDialog(this,"No se ha actualizado el producto");}
+            int filasActualizadas = actualizarPreparada.executeUpdate();
+            if (filasActualizadas > 0) {
+                cargarProductos();
+                JOptionPane.showMessageDialog(this, "Se ha actualizado el producto con exito");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se ha actualizado el producto");
+            }
 
-         actualizarPreparada.close();
-         conexionBaseDeDatos.close();
+            actualizarPreparada.close();
+            conexionBaseDeDatos.close();
 
 
         } catch (SQLException e) {
@@ -406,7 +410,7 @@ public class FrmProductos extends javax.swing.JFrame {
 
         String nombreCategoria = tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString();
 
-        for (int i = 0 ; i < cboCategoria.getItemCount(); i++) {
+        for (int i = 0; i < cboCategoria.getItemCount(); i++) {
             Categoria categoria = (Categoria) cboCategoria.getItemAt(i);
             if (categoria.getNombre().equals(nombreCategoria)) {
                 cboCategoria.setSelectedIndex(i);
@@ -423,6 +427,7 @@ public class FrmProductos extends javax.swing.JFrame {
 
 
     }
+
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tblProductos.getSelectedRow();
 
@@ -460,8 +465,9 @@ public class FrmProductos extends javax.swing.JFrame {
         }
 
     }
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
-         {
+        {
             txtCodigo.setText("");
             txtNombre.setText("");
             txtPrecio.setText("");
@@ -484,23 +490,26 @@ public class FrmProductos extends javax.swing.JFrame {
         Categoria categoriaSeleccionada = (Categoria) cboCategoria.getSelectedItem();
 
         Connection conexionBaseDeDatos = ConexionSQL.conectar();
-        String usp_guardar_productos="{call usp_guardar_productos(?,?,?,?,?,?,?)}";
+        String usp_guardar_productos = "{call usp_guardar_productos(?,?,?,?,?,?,?)}";
 
         try {
             CallableStatement guardarProductos = conexionBaseDeDatos.prepareCall(usp_guardar_productos);
             guardarProductos.setString(1, txtCodigo.getText().trim());
             guardarProductos.setString(2, txtNombre.getText().trim());
-            guardarProductos.setInt(3,categoriaSeleccionada.getIdCategoria());
-            guardarProductos.setDouble(4,Double.parseDouble(txtPrecio.getText().trim()));
+            guardarProductos.setInt(3, categoriaSeleccionada.getIdCategoria());
+            guardarProductos.setDouble(4, Double.parseDouble(txtPrecio.getText().trim()));
             guardarProductos.setInt(5, Integer.parseInt(txtStock.getText().trim()));
             guardarProductos.setInt(6, Integer.parseInt(txtStockMinimo.getText().trim()));
             guardarProductos.setBoolean(7, chkActivo.isSelected());
-            int filasAgregadas =  guardarProductos.executeUpdate();
+            int filasAgregadas = guardarProductos.executeUpdate();
             guardarProductos.close();
             conexionBaseDeDatos.close();
 
-            if (filasAgregadas > 0) {JOptionPane.showMessageDialog(this,"Se guardo el Producto correctamente");}
-            else  {JOptionPane.showMessageDialog(this,"No se pudo guardar el Producto ingresado");}
+            if (filasAgregadas > 0) {
+                JOptionPane.showMessageDialog(this, "Se guardo el Producto correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar el Producto ingresado");
+            }
 
         } catch (SQLException e) {
             System.out.println("Error en usp_guardar_productos " + e.getMessage());
@@ -513,7 +522,54 @@ public class FrmProductos extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new FrmProductos().setVisible(true));
     }
 
+private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
+    String textoBuscar = txtBuscar.getText().trim();
 
+    // Si el cuadro de búsqueda está vacío, volvemos a cargar todos los productos
+    if (textoBuscar.isEmpty()) {
+        cargarProductos();
+        return;
+    }
+
+    DefaultTableModel tablaProductos = (DefaultTableModel) tblProductos.getModel();
+    tablaProductos.setRowCount(0); // Limpiar la tabla
+
+    Connection conexionBaseDeDatos = ConexionSQL.conectar();
+
+    String consultaBusqueda = "SELECT P.idProducto, P.codigo, P.nombre, C.nombre AS nombreCategoria, P.precio, P.stock, P.stockMinimo " +
+            "FROM producto P INNER JOIN CATEGORIA C ON P.idCategoria = C.idCategoria " +
+            "WHERE P.codigo LIKE ? OR P.nombre LIKE ? " +
+            "ORDER BY P.codigo";
+
+    try {
+        PreparedStatement consultaPreparada = conexionBaseDeDatos.prepareStatement(consultaBusqueda);
+
+        // El comodín % permite que busque cualquier texto que contenga lo ingresado
+        consultaPreparada.setString(1, "%" + textoBuscar + "%");
+        consultaPreparada.setString(2, "%" + textoBuscar + "%");
+
+        ResultSet resultadoConsulta = consultaPreparada.executeQuery();
+
+        while (resultadoConsulta.next()) {
+            Object[] productos = new Object[6];
+            productos[0] = resultadoConsulta.getString("codigo");
+            productos[1] = resultadoConsulta.getString("nombre");
+            productos[2] = resultadoConsulta.getString("nombreCategoria");
+            productos[3] = resultadoConsulta.getDouble("precio");
+            productos[4] = resultadoConsulta.getInt("stock");
+            productos[5] = resultadoConsulta.getInt("stockMinimo");
+            tablaProductos.addRow(productos);
+        }
+
+        resultadoConsulta.close();
+        consultaPreparada.close();
+        conexionBaseDeDatos.close();
+
+    } catch (SQLException e) {
+        System.out.println("Error al buscar productos: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
