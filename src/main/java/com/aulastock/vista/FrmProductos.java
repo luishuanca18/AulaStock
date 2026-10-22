@@ -516,7 +516,6 @@ public class FrmProductos extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
         String textoBuscar = txtBuscar.getText().trim();
 
-        // Si el cuadro de búsqueda está vacío, volvemos a cargar todos los productos
         if (textoBuscar.isEmpty()) {
             cargarProductos();
             return;
